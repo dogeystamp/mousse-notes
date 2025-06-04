@@ -120,6 +120,23 @@
       it
     }
   }
+  // show equation references as (1)
+  // https://typst.app/docs/reference/model/ref/
+  show ref: it => {
+    let eq = math.equation
+    let el = it.element
+    if el != none and el.func() == eq {
+      link(
+        el.location(),
+        numbering(
+          el.numbering,
+          ..counter(eq).at(el.location()),
+        ),
+      )
+    } else {
+      it
+    }
+  }
   show math.qed: "▮"
 
   title_page(
