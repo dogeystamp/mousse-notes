@@ -37,7 +37,7 @@
   let INDENT = 0em
 
   set text(font: "New Computer Modern")
-  set par(first-line-indent: (amount: INDENT, all: false), justify: true, spacing: 1em, leading: 0.5em)
+  set par(first-line-indent: (amount: INDENT, all: false), justify: true, spacing: 1em, leading: 0.5em + 1pt)
   set enum(indent: INDENT, numbering: "1)")
   set terms(hanging-indent: INDENT)
   show math.equation: set block(breakable: true)
@@ -48,6 +48,18 @@
 
   set page(
     margin: (left: 100pt, right: 100pt),
+    footer: context {
+      let current_chapter = query(selector(heading.where(level: 1)).before(here())).at(-1, default: none)
+      let is_chapter_heading = current_chapter != none and current_chapter.location().page() == here().page()
+
+      if not is_chapter_heading {
+        return
+      }
+
+      let page = counter(page).display()
+      set text(size: 9pt)
+      place(center + horizon, page)
+    },
     header: context {
       let page_num = counter(page).get().at(0)
       if page_num == 1 {
@@ -77,21 +89,18 @@
         sec. #numbering(current_sec.numbering, ..counter(heading).at(current_sec.location()))
       ]
 
-      let small = it => {
-        set text(size: 0.8em)
-        it
-      }
+      set text(size: 9pt)
 
       if calc.even(page_num) {
         place(left + horizon, page)
-        place(center + horizon, small(smallcaps(title)))
+        place(center + horizon, smallcaps(title))
         if not is_chapter_heading {
-          place(right + horizon, small(smallcaps(chap_num)))
+          place(right + horizon, smallcaps(chap_num))
         }
       } else {
         if not is_chapter_heading {
-          place(left + horizon, small(smallcaps(sec_num)))
-          place(center + horizon, small(chap))
+          place(left + horizon, smallcaps(sec_num))
+          place(center + horizon, chap)
         }
         place(right + horizon, page)
       }
