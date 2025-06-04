@@ -1,5 +1,5 @@
 #import "@local/mousse-notes:0.1.0": *
-
+#set page(paper: "us-letter")
 #show: book.with(
   title: [Course Name],
   subtitle: [123-456AB],

@@ -37,7 +37,7 @@
   let INDENT = 0em
 
   set text(font: "New Computer Modern")
-  set par(first-line-indent: (amount: INDENT, all: false), justify: true, spacing: 1em, leading: 0.6em)
+  set par(first-line-indent: (amount: INDENT, all: false), justify: true, spacing: 1em, leading: 0.5em)
   set enum(indent: INDENT, numbering: "1)")
   set terms(hanging-indent: INDENT)
   show math.equation: set block(breakable: true)
@@ -47,7 +47,7 @@
   show figure.caption: emph
 
   set page(
-    paper: "us-letter",
+    margin: (left: 100pt, right: 100pt),
     header: context {
       let page_num = counter(page).get().at(0)
       if page_num == 1 {
