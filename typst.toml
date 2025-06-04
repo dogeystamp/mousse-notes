@@ -1,0 +1,14 @@
+[package]
+name = "mousse-notes"
+version = "0.1.0"
+entrypoint = "lib.typ"
+authors = ["dogeystamp <dogeystamp@disroot.org>"]
+license = "MIT-0"
+description = "Book format, designed for taking lecture notes (specifically for maths)."
+disciplines = ["computer-science", "mathematics"]
+categories = ["book"]
+compiler = "0.13.1"
+
+[template]
+path = "template"
+entrypoint = "main.typ"
