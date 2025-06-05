@@ -43,8 +43,10 @@
   show math.equation: set block(breakable: true)
   set document(author: if author != none { author } else { () }, title: title)
 
-  set image(width: 50%)
-  show figure.caption: emph
+  show figure.caption: it => {
+    set text(size: 0.85em)
+    emph(it)
+  }
 
   set page(
     margin: (left: 100pt, right: 100pt),
@@ -138,6 +140,16 @@
     }
   }
   show math.qed: "▮"
+
+  show link: it => {
+    if type(it.dest) != str {
+      // local link
+      it
+    } else {
+      set text(font: "DejaVu Sans Mono")
+      box(it)
+    }
+  }
 
   title_page(
     author: author,
