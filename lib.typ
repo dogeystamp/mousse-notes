@@ -150,7 +150,7 @@
       // local link
       it
     } else {
-      set text(font: "DejaVu Sans Mono")
+      set text(font: "DejaVu Sans Mono", size: 0.8em)
       box(it)
     }
   }
