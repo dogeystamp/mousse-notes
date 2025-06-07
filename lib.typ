@@ -73,7 +73,9 @@
       let sec_right_before = query(selector(heading.where(level: 2)).before(here())).at(-1, default: none)
 
       let current_chapter = query(selector(heading.where(level: 1)).before(here())).at(-1, default: none)
-      let current_sec = if sec_right_after.location().page() == here().page() { sec_right_after } else {
+      let current_sec = if sec_right_after != none and sec_right_after.location().page() == here().page() {
+        sec_right_after
+      } else {
         sec_right_before
       }
 
