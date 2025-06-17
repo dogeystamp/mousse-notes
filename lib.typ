@@ -49,7 +49,7 @@
   }
 
   set page(
-    margin: (left: 100pt, right: 100pt),
+    margin: (left: 16.3%, right: 16.3%),
     footer: context {
       let current_chapter = query(selector(heading.where(level: 1)).before(here())).at(-1, default: none)
       let is_chapter_heading = current_chapter != none and current_chapter.location().page() == here().page()
