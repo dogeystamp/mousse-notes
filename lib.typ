@@ -148,11 +148,17 @@
   show math.qed: "▮"
 
   show link: it => {
+    set text(fill: navy)
     if type(it.dest) != str {
       // local link
       it
-    } else {
+    } else if (it.body == [#it.dest]) {
+      // URL (no custom text)
       set text(font: "DejaVu Sans Mono", size: 0.8em)
+      box(it)
+    } else {
+      // URL (custom text)
+      show text: underline
       box(it)
     }
   }
