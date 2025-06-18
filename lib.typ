@@ -148,7 +148,7 @@
   show math.qed: "▮"
 
   show link: it => {
-    set text(fill: navy)
+    set text(fill: blue)
     if type(it.dest) != str {
       // local link
       it
