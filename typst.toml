@@ -4,7 +4,7 @@ version = "0.1.0"
 entrypoint = "lib.typ"
 authors = ["dogeystamp <dogeystamp@disroot.org>"]
 license = "MIT-0"
-description = "Book format, designed for taking lecture notes (specifically for maths)."
+description = "Typeset notes, with a style inspired by LaTeX."
 disciplines = ["computer-science", "mathematics"]
 categories = ["book"]
 compiler = "0.13.1"
@@ -12,3 +12,4 @@ compiler = "0.13.1"
 [template]
 path = "template"
 entrypoint = "main.typ"
+thumbnail = "thumbnail.png"

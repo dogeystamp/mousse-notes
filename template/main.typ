@@ -33,7 +33,7 @@ This section is unnamed.
 #lorem(90)
 This brings us to the following
 
-#theorem[
+#theorem(name: "Epsom's", id: "thm_epsom")[
   #lorem(20)
   $
   (c,h,i) in upright(bold(S)) -> K(c, h, i) = mat(
@@ -47,7 +47,8 @@ This brings us to the following
 ]
 
 ===
-#glue[Chicken, chicken chicken, chicken chicken chicken named equation:]
+By @thm_epsom,
+chicken, chicken chicken, chicken chicken chicken named equation:
 $
 C(K) = sum_(i=1)^(n)  Delta^2 (K_i) = sum_(i=1)^(n) norm(E_i - K(H_i))^2
 $ <eq_chicken>
@@ -56,7 +57,7 @@ $ <eq_chicken>
 
 ====
 #example[
-  #lorem(10)
+  #lorem(10) See @eq_chicken.
 ]
 
 #solution[
