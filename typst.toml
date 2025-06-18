@@ -1,6 +1,6 @@
 [package]
 name = "mousse-notes"
-version = "0.1.0"
+version = "0.1.1"
 entrypoint = "lib.typ"
 authors = ["dogeystamp <dogeystamp@disroot.org>"]
 license = "MIT-0"
