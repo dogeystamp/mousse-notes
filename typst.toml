@@ -8,6 +8,7 @@ description = "Typeset notes, with a style inspired by LaTeX."
 disciplines = ["computer-science", "mathematics"]
 categories = ["book"]
 compiler = "0.13.1"
+exclude = ["thumbnail_pages.png"]
 
 [template]
 path = "template"
