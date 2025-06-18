@@ -1,6 +1,6 @@
 **Mousse notes** is a template for typesetting notes in [Typst](https://typst.app).
 
-![Screenshot of the template](preview_pages.png)
+![Screenshot of the template](thumbnail_pages.png)
 
 To use it, install this package to your local system (this package is currently not published to Typst Universe):
 
