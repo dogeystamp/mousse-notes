@@ -43,11 +43,6 @@
   show math.equation: set block(breakable: true)
   set document(author: if author != none { author } else { () }, title: title)
 
-  show figure.caption: it => {
-    set text(size: 0.85em)
-    emph(it)
-  }
-
   set page(
     margin: (left: 16.3%, right: 16.3%),
     footer: context {
@@ -227,6 +222,10 @@
     )
   }
 
+  show figure.where(kind: table): set figure.caption(position: top)
+  show figure.where(kind: table): set figure(gap: 1em)
+  show figure.where(kind: table): it => { v(1.5em, weak: true) + it + v(2em, weak: true) };
+
   pagebreak()
   body
 }
@@ -268,3 +267,21 @@
 //
 // Use this on text before a math block so that the text doesn't get separated from it.
 #let glue = block.with(sticky: true)
+
+/// Custom table function.
+#let tablef(..args) = {
+  set table.hline(stroke: 0.5pt)
+  table(
+    align: left,
+    stroke: (x, y) => {
+      if (y == 0) {
+        (
+          top: 1pt,
+          bottom: 0.5pt,
+        )
+      }
+    },
+    ..args.named(),
+    ..(args.pos() + (table.hline(stroke: 1pt),)),
+  )
+}
