@@ -1,3 +1,5 @@
+#let INDENT = 0.8em
+
 #let title_page(
   title: none,
   subtitle: none,
@@ -34,13 +36,15 @@
   subsubsubtitle: none,
   body,
 ) = {
-  let INDENT = 0em
-
   set text(font: "New Computer Modern")
   set par(first-line-indent: (amount: INDENT, all: false), justify: true, spacing: 1em, leading: 0.5em + 1pt)
   set enum(indent: INDENT, numbering: "1)")
   set terms(hanging-indent: INDENT)
+
+  // break block equations; don't break inline eqs
   show math.equation: set block(breakable: true)
+  show math.equation.where(block: false): it => box(it)
+
   set document(author: if author != none { author } else { () }, title: title)
 
   set page(
@@ -172,7 +176,7 @@
   show heading.where(level: 4): set heading(outlined: false)
   show heading.where(level: 4): it => {
     let levels = counter(heading).get()
-    numbering("a.", levels.at(3))
+    h(0.45em) + numbering("a.", levels.at(3))
   }
 
   show heading.where(level: 3): set heading(outlined: false)
@@ -266,7 +270,13 @@
 /// Quick macro to "glue" text to the next element.
 //
 // Use this on text before a math block so that the text doesn't get separated from it.
-#let glue = block.with(sticky: true)
+// Set `indent: false` when this is the first element after a heading.
+#let glue(indent: true, body) = {
+  block(sticky: true, (if indent {h(INDENT)}) + body)
+}
+
+/// Manual override for indent (because Typst paragraphs suck)
+#let indent = h(INDENT)
 
 /// Custom table function.
 #let tablef(..args) = {
