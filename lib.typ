@@ -176,7 +176,7 @@
   show heading.where(level: 4): set heading(outlined: false)
   show heading.where(level: 4): it => {
     let levels = counter(heading).get()
-    h(0.45em) + numbering("a.", levels.at(3))
+    numbering("a.", levels.at(3))
   }
 
   show heading.where(level: 3): set heading(outlined: false)
