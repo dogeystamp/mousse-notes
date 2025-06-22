@@ -1,4 +1,4 @@
-#import "@local/mousse-notes:0.1.0": *
+#import "@local/mousse-notes:9999.0.1": *
 #set page(paper: "us-letter")
 #show: book.with(
   title: [Course Name],
@@ -30,16 +30,13 @@ Second thing.
 
 ===
 This section is unnamed.
-#lorem(90)
+#lorem(45)
 This brings us to the following
 
-#theorem(name: "Epsom's", id: "thm_epsom")[
+#theorem(name: "Pythagorean", id: "thm_pyth")[
   #lorem(20)
   $
-  (c,h,i) in upright(bold(S)) -> K(c, h, i) = mat(
-    K_i (c, h, i);
-    K_e (c, h, i);
-  )
+  a^2 = b^2 + c^2.
   $
 ]
 #proof[
@@ -47,17 +44,17 @@ This brings us to the following
 ]
 
 ===
-By @thm_epsom,
+By @thm_pyth,
 chicken, chicken chicken, chicken chicken chicken named equation:
 $
-C(K) = sum_(i=1)^(n)  Delta^2 (K_i) = sum_(i=1)^(n) norm(E_i - K(H_i))^2
+x^3 + x^2 + 4x + 9 = 3
 $ <eq_chicken>
 
 #lorem(30)
 
 ====
 #example[
-  #lorem(10) See @eq_chicken.
+  #lorem(30) See @eq_chicken.
 ]
 
 #solution[
