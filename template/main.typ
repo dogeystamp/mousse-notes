@@ -1,4 +1,4 @@
-#import "@local/mousse-notes:0.3.0": *
+#import "@local/mousse-notes:0.4.0": *
 #set page(paper: "us-letter")
 #show: book.with(
   title: [Course Name],
