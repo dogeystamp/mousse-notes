@@ -41,7 +41,7 @@
 ) = {
   set text(font: "New Computer Modern")
   set par(first-line-indent: (amount: INDENT, all: false), justify: true, spacing: 0.5em + 1pt, leading: 0.5em + 1pt)
-  set enum(indent: INDENT, numbering: "1)")
+  set enum(indent: INDENT, numbering: "1.")
   set terms(hanging-indent: INDENT)
 
   // break block equations; don't break inline eqs
@@ -201,7 +201,7 @@
       par(
         spacing: 0em,
         {
-          numbering("1. ", counter(heading).get().at(1))
+          counter(heading).display() + h(0.5em)
           smallcaps(it.body)
         },
       ),
@@ -217,15 +217,17 @@
     counter(math.equation).update(0)
     block(
       inset: (left: -0.2em),
-      height: 15%,
+      height: 15% - 1em,
       {
         set text(size: 2em)
         (smallcaps(it.body))
       }
-        + smallcaps[
-          #linebreak()
-          #h(0.125em)Chapter #numbering("1", counter(heading).get().at(0))
-        ],
+        + if it.outlined {
+          smallcaps[
+            #linebreak()
+            #h(0.125em)Chapter #counter(heading).display()
+          ]
+        },
     )
   }
 
