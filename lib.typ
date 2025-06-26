@@ -255,6 +255,7 @@
     #show figure: it => it.body
     #v(if before != none { 0em } else { 1.25em }, weak: true)
     #block(
+      width: 100%,
       breakable: breakable,
       [
         #figure(
