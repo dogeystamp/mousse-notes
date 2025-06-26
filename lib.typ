@@ -1,4 +1,7 @@
-#let INDENT = 0.8em
+#let INDENT = 1em
+
+/// Manual override for indent (because Typst paragraphs suck)
+#let indent = h(INDENT)
 
 #let title_page(
   title: none,
@@ -37,7 +40,7 @@
   body,
 ) = {
   set text(font: "New Computer Modern")
-  set par(first-line-indent: (amount: INDENT, all: false), justify: true, spacing: 1em, leading: 0.5em + 1pt)
+  set par(first-line-indent: (amount: INDENT, all: false), justify: true, spacing: 0.5em + 1pt, leading: 0.5em + 1pt)
   set enum(indent: INDENT, numbering: "1)")
   set terms(hanging-indent: INDENT)
 
@@ -226,9 +229,18 @@
     )
   }
 
+  show heading.where(level: 3): it => {
+    v(1.5em, weak: true) + it
+  }
+  show heading.where(level: 2): it => {
+    set block(below: 1.25em)
+    v(2.0em, weak: true) + it
+  }
+  show enum: it => { v(0.9em, weak: true) + it + v(0.9em, weak: true) }
+
   show figure.where(kind: table): set figure.caption(position: top)
   show figure.where(kind: table): set figure(gap: 1em)
-  show figure.where(kind: table): it => { v(1.5em, weak: true) + it + v(2em, weak: true) };
+  show figure.where(kind: table): it => { v(1.5em, weak: true) + it + v(2em, weak: true) }
 
   pagebreak()
   body
@@ -236,25 +248,28 @@
 
 /// Theorem environment. Optionally can have a name, like "Rolle's" theorem.
 #let thmenv(kind, fmt: it => it, body_fmt: it => it) = {
-  return (body, name: none, id: none) => [
+  return (body, name: none, id: none, before: none, breakable: true) => [
     #show figure: set align(start)
     #show figure: it => it.body
-    // This is boxed so that the Theorem is inline (not a block element).
-    #box([
-      #figure(
-        kind: kind,
-        supplement: kind,
-        numbering: (..levels) => {
-          // Numbering is just section numbering. This template has lots and lots
-          // of subsection options, so only put one theorem per subsection.
-          counter(heading).display()
-        },
-        {
-          (if name == none [ #fmt(kind).] else [#fmt(kind) *(#name)*.])
-        },
-      )#if id != none { label(id) }
-    ])
-    #body_fmt(body)
+    #v(if before != none { 0em } else { 1.25em }, weak: true)
+    #block(
+      breakable: breakable,
+      [
+        #figure(
+          kind: kind,
+          supplement: kind,
+          numbering: (..levels) => {
+            // Numbering is just section numbering. This template has lots and lots
+            // of subsection options, so only put one theorem per subsection.
+            counter(heading).display()
+          },
+          {
+            indent + before + (if name == none [ #fmt(kind). ] else [#fmt(kind) *(#name)*. ]) + body_fmt(body)
+          },
+        )#if id != none { label(id) }
+      ],
+    )
+    #v(1.25em, weak: true)
   ]
 }
 
@@ -262,7 +277,7 @@
 #let lemma = thmenv("Lemma", fmt: smallcaps, body_fmt: emph)
 #let corollary = thmenv("Corollary", fmt: smallcaps, body_fmt: emph)
 #let definition = thmenv("Definition", fmt: smallcaps, body_fmt: emph)
-#let example = thmenv("Example", fmt: emph)
+#let example = thmenv("Example", fmt: smallcaps)
 #let solution = thmenv("Solution", fmt: emph)
 #let proof = thmenv("Proof", fmt: emph)
 #let remark = thmenv("Remark", fmt: it => strong(emph(it)))
@@ -272,11 +287,8 @@
 // Use this on text before a math block so that the text doesn't get separated from it.
 // Set `indent: false` when this is the first element after a heading.
 #let glue(indent: true, body) = {
-  block(sticky: true, (if indent {h(INDENT)}) + body)
+  block(sticky: true, (if indent { h(INDENT) }) + body)
 }
-
-/// Manual override for indent (because Typst paragraphs suck)
-#let indent = h(INDENT)
 
 /// Custom table function.
 #let tablef(..args) = {
