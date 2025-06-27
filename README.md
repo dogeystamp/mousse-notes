@@ -1,4 +1,5 @@
-**Mousse notes** is a template for typesetting notes in [Typst](https://typst.app).
+**Mousse notes** is a template for typesetting notes in [Typst](https://typst.app),
+inspired by typical LaTeX styles.
 
 ![Screenshot of the template](thumbnail_pages.png)
 
@@ -23,4 +24,3 @@ typst init @local/mousse-notes [directory name]
 
 The default template provides example usages of some of these functions.
 Math equations are automatically numbered if they are assigned a label.
-Section headers are inspired by Shilov's _Linear Algebra_ book.
