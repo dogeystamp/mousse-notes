@@ -1,4 +1,4 @@
-#let INDENT = 1em
+#let INDENT = 1.4em
 
 /// Manual override for indent (because Typst paragraphs suck)
 #let indent = h(INDENT)
