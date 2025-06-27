@@ -238,7 +238,7 @@
         {
           let number = context [ #counter(heading).get().at(0).#ctr.display()]
           (
-            fmt[#kind#if numbered { number }#if name != none { strong(name) }.] + h(0.1em) + body_fmt(body)
+            fmt[#kind#if numbered { number }] + if name != none [ *(#name)*] + fmt[.] + h(0.1em) + body_fmt(body)
           )
         },
       )#if id != none { label(id) }
