@@ -10,23 +10,19 @@
   subsubsubtitle: none,
   author: none,
 ) = {
-  place(
-    horizon + center,
-    dy: -15%,
-    {
-      set par(spacing: 0.35em, leading: 0.15em, justify: false)
-      align(
-        center,
-        text(size: 4em, smallcaps(title), weight: "black", hyphenate: false)
-          + parbreak()
-          + text(size: 2em, smallcaps(subtitle)),
-      )
-      v(1.6em)
-      emph(text(size: 1.3em, subsubtitle))
-      parbreak()
-      emph(subsubsubtitle)
-    },
-  )
+  place(horizon + center, dy: -15%, {
+    set par(spacing: 0.35em, leading: 0.15em, justify: false)
+    align(
+      center,
+      text(size: 4em, smallcaps(title), weight: "black", hyphenate: false)
+        + parbreak()
+        + text(size: 2em, smallcaps(subtitle)),
+    )
+    v(1.6em)
+    emph(text(size: 1.3em, subsubtitle))
+    parbreak()
+    emph(subsubsubtitle)
+  })
 
   align(bottom + center, text(size: 1.5em, smallcaps(author)))
 }
@@ -136,13 +132,7 @@
     let eq = math.equation
     let el = it.element
     if el != none and el.func() == eq {
-      link(
-        el.location(),
-        numbering(
-          el.numbering,
-          ..counter(eq).at(el.location()),
-        ),
-      )
+      link(el.location(), numbering(el.numbering, ..counter(eq).at(el.location())))
     } else {
       it
     }
@@ -174,39 +164,31 @@
     subsubsubtitle: subsubsubtitle,
   )
 
-  set heading(numbering: "1.11a")
+  set heading(numbering: "1.1.1a")
 
-  show heading.where(level: 4): set heading(outlined: false)
-  show heading.where(level: 4): it => {
-    let levels = counter(heading).get()
-    numbering("a.", levels.at(3))
-  }
-
-  show heading.where(level: 3): set heading(outlined: false)
-  show heading.where(level: 3): it => {
-    let levels = counter(heading).get()
-    let is_empty = it.body == none or it.body == "" or it.body != []
-
-    (
-      [#levels.at(0).#{ levels.at(1) }#{ levels.at(2) }.]
-        + if is_empty [
-          *#it.body.*
-        ]
-    )
-  }
-
-  show heading.where(level: 2): it => {
+  let heading-func = (body-fmt: strong, it) => {
     block(
       sticky: true,
-      par(
-        spacing: 0em,
-        {
-          counter(heading).display() + h(0.5em)
-          smallcaps(it.body)
-        },
+      (
+        counter(heading).display() + h(0.8em) + body-fmt(it.body)
       ),
     )
   }
+
+  show heading.where(level: 2): heading-func.with(body-fmt: smallcaps)
+  show heading.where(level: 2): set text(size: 1.1em)
+  show heading.where(level: 2): it => {
+    set block(above: 0em, below: 0em)
+    v(1.5em, weak: true) + it + v(0.75em, weak: true)
+  }
+
+  show heading.where(level: 3): heading-func
+  show heading.where(level: 3): it => {
+    set block(above: 0em, below: 0em)
+    v(1.25em, weak: true) + it + v(0.75em, weak: true)
+  }
+
+  show heading.where(level: 4): heading-func
 
   show heading.where(level: 1): set heading(supplement: [Chapter])
   show heading.where(level: 1): it => {
@@ -230,14 +212,6 @@
         },
     )
   }
-
-  show heading.where(level: 3): it => {
-    v(1.5em, weak: true) + it
-  }
-  show heading.where(level: 2): it => {
-    set block(below: 1.25em)
-    v(2.0em, weak: true) + it
-  }
   show enum: it => { v(0.9em, weak: true) + it + v(0.9em, weak: true) }
 
   show figure.where(kind: table): set figure.caption(position: top)
@@ -249,41 +223,40 @@
 }
 
 /// Theorem environment. Optionally can have a name, like "Rolle's" theorem.
-#let thmenv(kind, fmt: it => it, body_fmt: it => it) = {
-  return (body, name: none, id: none, before: none, breakable: true) => [
+#let thmenv(kind, fmt: it => it, body_fmt: it => it, numbered: true) = {
+  return (body, name: none, id: none, breakable: true) => [
+    #let ctr = counter("moussethm" + kind)
+    #ctr.step()
     #show figure: set align(start)
     #show figure: it => it.body
-    #v(if before != none { 0em } else { 1.25em }, weak: true)
-    #block(
-      width: 100%,
-      breakable: breakable,
-      [
-        #figure(
-          kind: kind,
-          supplement: kind,
-          numbering: (..levels) => {
-            // Numbering is just section numbering. This template has lots and lots
-            // of subsection options, so only put one theorem per subsection.
-            counter(heading).display()
-          },
-          {
-            indent + before + (if name == none [ #fmt(kind). ] else [#fmt(kind) *(#name)*. ]) + body_fmt(body)
-          },
-        )#if id != none { label(id) }
-      ],
-    )
-    #v(1.25em, weak: true)
+    #v(weak: true, 1.5em)
+    #block(width: 100%, breakable: breakable, above: 0em, below: 0em, [
+      #figure(
+        kind: kind,
+        supplement: kind,
+        numbering: (..levels) => [#(counter(heading).get().at(0)).#levels.at(0)],
+        {
+          let number = context [ #counter(heading).get().at(0).#ctr.display()]
+          (
+            fmt[#kind#if numbered { number }#if name != none { strong(name) }.] + h(0.1em) + body_fmt(body)
+          )
+        },
+      )#if id != none { label(id) }
+    ])
+    #v(weak: true, 1.5em)
   ]
 }
 
-#let theorem = thmenv("Theorem", fmt: smallcaps, body_fmt: emph)
-#let lemma = thmenv("Lemma", fmt: smallcaps, body_fmt: emph)
-#let corollary = thmenv("Corollary", fmt: smallcaps, body_fmt: emph)
-#let definition = thmenv("Definition", fmt: smallcaps, body_fmt: emph)
+#let smallcaps-strong = it => smallcaps(strong(it))
+
+#let theorem = thmenv("Theorem", fmt: smallcaps-strong, body_fmt: emph)
+#let lemma = thmenv("Lemma", fmt: smallcaps-strong, body_fmt: emph)
+#let corollary = thmenv("Corollary", fmt: smallcaps-strong, body_fmt: emph)
+#let definition = thmenv("Definition", fmt: smallcaps-strong, body_fmt: emph)
 #let example = thmenv("Example", fmt: smallcaps)
-#let solution = thmenv("Solution", fmt: emph)
-#let proof = thmenv("Proof", fmt: emph)
-#let remark = thmenv("Remark", fmt: it => strong(emph(it)))
+#let solution = thmenv("Solution", fmt: emph, numbered: false)
+#let proof = thmenv("Proof", fmt: emph, numbered: false)
+#let remark = thmenv("Remark", fmt: it => strong(emph(it)), numbered: false)
 
 /// Quick macro to "glue" text to the next element.
 //
