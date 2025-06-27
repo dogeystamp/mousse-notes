@@ -1,4 +1,4 @@
-#import "@local/mousse-notes:0.4.0": *
+#import "@local/mousse-notes:0.5.0": *
 #set page(paper: "us-letter")
 #show: book.with(
   title: [Course Name],
@@ -20,17 +20,7 @@
 Content goes here.
 #lorem(50)
 
-====
-One thing.
-#lorem(20)
-
-====
-Second thing.
-#lorem(15)
-
-===
-This section is unnamed.
-#lorem(45)
+#lorem(40)
 This brings us to the following
 
 #theorem(name: "Pythagorean", id: "thm_pyth")[
@@ -43,7 +33,7 @@ This brings us to the following
   I said so, therefore it is true. $qed$
 ]
 
-===
+=== Another subsection
 By @thm_pyth,
 chicken, chicken chicken, chicken chicken chicken named equation:
 $
@@ -52,7 +42,8 @@ $ <eq_chicken>
 
 #lorem(30)
 
-====
+#lorem(50)
+
 #example[
   #lorem(30) See @eq_chicken.
 ]
