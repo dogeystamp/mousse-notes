@@ -15,7 +15,7 @@ Then you can initialize a Typst project as follows:
 typst init @local/mousse-notes [directory name]
 ```
 
-- The main template entry point is the `book` function,
+- The main template entry point is the `book` function. All of its parameters are optional.
 - Functions for math are given: `theorem`, `lemma`, `corollary`, `definition`,
     `example`, `solution`, `proof` and `remark`.
     You may create your own theorem environments with the `thmenv` function.
