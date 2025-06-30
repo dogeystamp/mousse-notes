@@ -8,22 +8,43 @@
   subtitle: none,
   subsubtitle: none,
   subsubsubtitle: none,
+  epigraph: none,
   author: none,
 ) = {
   place(horizon + center, dy: -15%, {
-    set par(spacing: 0.35em, leading: 0.15em, justify: false)
+    set par(spacing: 0.7em, leading: 0.2em, justify: false)
     align(
       center,
       text(size: 4em, smallcaps(title), weight: "black", hyphenate: false)
-        + parbreak()
-        + text(size: 2em, smallcaps(subtitle)),
+        + v(2.5%, weak: true)
+        + if subtitle != none {
+          text(size: 2em, smallcaps(subtitle))
+          v(2.5%, weak: true)
+        },
     )
-    v(1.6em)
-    emph(text(size: 1.3em, subsubtitle))
-    parbreak()
+    v(3.5%, weak: true)
+    emph(text(size: 1.5em, subsubtitle))
+    v(1.25%, weak: true)
+    set text(number-type: "old-style")
     emph(subsubsubtitle)
   })
 
+  {
+    set par(justify: false, linebreaks: "optimized", spacing: 1em)
+    set text(costs: (runt: 400%))
+    set quote(block: true)
+    show quote: it => [
+      #emph(it.body)
+
+      #align(right, box(text(size: 0.7em)[--- #it.attribution]))
+    ]
+    place(bottom + center, dy: -17.5%, block(
+      stroke: (top: black, bottom: black),
+      inset: (top: 12pt, bottom: 12pt, left: 6pt, right: 6pt),
+      width: 80%,
+      align(left, text(size: 1.4em, epigraph, hyphenate: false)),
+    ))
+  }
   align(bottom + center, text(size: 1.5em, smallcaps(author)))
 }
 
@@ -33,6 +54,7 @@
   subtitle: none,
   subsubtitle: none,
   subsubsubtitle: none,
+  epigraph: none,
   body,
 ) = {
   set text(font: "New Computer Modern")
@@ -162,6 +184,7 @@
     subtitle: subtitle,
     subsubtitle: subsubtitle,
     subsubsubtitle: subsubsubtitle,
+    epigraph: epigraph,
   )
 
   set heading(numbering: "1.1.1a")
