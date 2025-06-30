@@ -10,6 +10,7 @@
     Professor #smallcaps[Jonathan Bingus], University of Wunkus.
   ],
   author: "John S. Student",
+  epigraph: quote(attribution: [Jonathan Bingus])[This is a tremendously inspirational quote that sets the tone of this course; truly, one of the epigraphs of all time.]
 )
 
 = Chapter Name
