@@ -15,7 +15,7 @@
     set par(spacing: 0.7em, leading: 0.2em, justify: false)
     align(
       center,
-      text(size: 4em, smallcaps(title), weight: "black", hyphenate: false)
+      text(size: 4em, smallcaps(title), weight: "regular", hyphenate: false)
         + v(2.5%, weak: true)
         + if subtitle != none {
           text(size: 2em, smallcaps(subtitle))
