@@ -38,12 +38,15 @@
 
       #align(right, box(text(size: 0.7em)[--- #it.attribution]))
     ]
-    place(bottom + center, dy: -17.5%, block(
-      stroke: (top: black, bottom: black),
-      inset: (top: 12pt, bottom: 12pt, left: 6pt, right: 6pt),
-      width: 80%,
-      align(left, text(size: 1.4em, epigraph, hyphenate: false)),
-    ))
+
+    if epigraph != none {
+      place(bottom + center, dy: -17.5%, block(
+        stroke: (top: black, bottom: black),
+        inset: (top: 12pt, bottom: 12pt, left: 6pt, right: 6pt),
+        width: 80%,
+        align(left, text(size: 1.4em, epigraph, hyphenate: false)),
+      ))
+    }
   }
   align(bottom + center, text(size: 1.5em, smallcaps(author)))
 }
