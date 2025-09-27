@@ -25,7 +25,6 @@
     v(3.5%, weak: true)
     emph(text(size: 1.5em, subsubtitle))
     v(1.25%, weak: true)
-    set text(number-type: "old-style")
     emph(subsubsubtitle)
   })
 
@@ -222,7 +221,9 @@
     set text(weight: "regular", hyphenate: false)
     set par(first-line-indent: 0.0em)
     counter(footnote).update(0)
-    counter(math.equation).update(0)
+    counter("moussethm-thmlike").update(0)
+    counter("moussethm-example").update(0)
+    counter(figure.where(kind: table)).update(0)
     block(
       inset: (left: -0.2em),
       height: 15% - 1em,
@@ -249,37 +250,42 @@
 }
 
 /// Theorem environment. Optionally can have a name, like "Rolle's" theorem.
-#let thmenv(kind, fmt: it => it, body_fmt: it => it, numbered: true) = {
-  return (body, name: none, id: none, breakable: true) => [
-    #let ctr = counter("moussethm" + kind)
-    #ctr.step()
-    #show figure: set align(start)
-    #show figure: it => it.body
-    #v(weak: true, 1.5em)
-    #block(width: 100%, breakable: breakable, above: 0em, below: 0em, [
-      #figure(
-        kind: kind,
-        supplement: kind,
-        numbering: (..levels) => [#(counter(heading).get().at(0)).#levels.at(0)],
-        {
-          let number = context [ #counter(heading).get().at(0).#ctr.display()]
-          (
-            fmt[#kind#if numbered { number }] + if name != none [ *(#name)*] + fmt[.] + h(0.1em) + body_fmt(body)
-          )
-        },
-      )#if id != none { label(id) }
-    ])
-    #v(weak: true, 1.5em)
-  ]
+#let thmenv(kind, fmt: it => it, body_fmt: it => it, numbered: true, counter-type: "thmlike") = {
+  return (body, name: none, id: none, breakable: true) => {
+    let ctr = counter("moussethm-" + counter-type)
+    if numbered {
+      ctr.step()
+    }
+    show figure: set align(start)
+    show figure: it => it.body
+    v(weak: true, 1.5em)
+    [
+      #block(width: 100%, breakable: breakable, above: 0em, below: 0em, [
+        #figure(
+          kind: kind,
+          supplement: kind,
+          numbering: (..levels) => [#counter(heading).get().at(0).#ctr.display()],
+          {
+            let number = context [ #counter(heading).get().at(0).#ctr.display()]
+            (
+              fmt[#kind#if numbered { number }] + if name != none [ *(#name)*] + fmt[.] + h(0.1em) + body_fmt(body)
+            )
+          },
+        )#if id != none { label(id) }
+      ])
+    ]
+    v(weak: true, 1.5em)
+  }
 }
 
 #let smallcaps-strong = it => smallcaps(strong(it))
 
 #let theorem = thmenv("Theorem", fmt: smallcaps-strong, body_fmt: emph)
+#let proposition = thmenv("Proposition", fmt: smallcaps-strong, body_fmt: emph)
 #let lemma = thmenv("Lemma", fmt: smallcaps-strong, body_fmt: emph)
 #let corollary = thmenv("Corollary", fmt: smallcaps-strong, body_fmt: emph)
 #let definition = thmenv("Definition", fmt: smallcaps-strong, body_fmt: emph)
-#let example = thmenv("Example", fmt: smallcaps)
+#let example = thmenv("Example", fmt: it => strong(it), counter-type: "example")
 #let solution = thmenv("Solution", fmt: emph, numbered: false)
 #let proof = thmenv("Proof", fmt: emph, numbered: false)
 #let remark = thmenv("Remark", fmt: it => strong(emph(it)), numbered: false)
