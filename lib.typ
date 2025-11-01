@@ -1,6 +1,6 @@
 #let INDENT = 1.4em
 
-/// Manual override for indent (because Typst paragraphs suck)
+/// Manual override for indent (see https://github.com/typst/typst/issues/3206)
 #let indent = h(INDENT)
 
 #let title_page(
@@ -145,7 +145,9 @@
     // https://forum.typst.app/t/how-to-conditionally-enable-equation-numbering-for-labeled-equations/977
     if it.block and not it.has("label") [
       #counter(math.equation).update(v => v - 1)
-      #math.equation(it.body, block: true, numbering: none)#label("")
+      // since v0.14.0, https://typst.app/docs/changelog/0.14.0/
+      // we can't just set #label("") anymore
+      #math.equation(it.body, block: true, numbering: none)#label("___NOLABEL")
     ] else {
       it
     }
