@@ -197,16 +197,22 @@
     block(
       sticky: true,
       (
-        counter(heading).display() + h(0.8em) + body-fmt(it.body)
+        emph(text(size: 0.8em, counter(heading).display())) + "."
+          + h(0.5em)
+          + body-fmt(it.body)
+          + box(width: 1fr, align(right, line(length: 100% - 0.8em, start: (0%, -0.225em), stroke: (
+            paint: black,
+            cap: "round",
+          ))))
       ),
     )
   }
 
-  show heading.where(level: 2): heading-func.with(body-fmt: smallcaps)
+  show heading.where(level: 2): heading-func.with(body-fmt: emph)
   show heading.where(level: 2): set text(size: 1.1em)
   show heading.where(level: 2): it => {
     set block(above: 0em, below: 0em)
-    v(1.5em, weak: true) + it + v(0.75em, weak: true)
+    v(2em, weak: true) + it + v(1em, weak: true)
   }
 
   show heading.where(level: 3): heading-func
@@ -231,10 +237,10 @@
       height: 15% - 1em,
       {
         set text(size: 2em)
-        (smallcaps(it.body))
+        (emph(it.body))
       }
         + if it.outlined {
-          smallcaps[
+          emph[
             #linebreak()
             #h(0.125em)Chapter #counter(heading).display()
           ]
@@ -260,6 +266,17 @@
     }
     show figure: set align(start)
     show figure: it => it.body
+
+    // un-italicize numbering in theorems
+    set enum(numbering: (..nums) => {
+      let content = numbering("(1)", ..nums)
+      if body_fmt == emph {
+        emph(content)
+      } else {
+        content
+      }
+    })
+
     v(weak: true, 1.5em)
     [
       #block(width: 100%, breakable: breakable, above: 0em, below: 0em, [
