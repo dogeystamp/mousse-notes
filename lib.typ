@@ -193,22 +193,25 @@
 
   set heading(numbering: "1.1.1a")
 
-  let heading-func = (body-fmt: strong, it) => {
+  let heading-func = (body-fmt: strong, use-line: false, it) => {
     block(
       sticky: true,
       (
-        emph(text(size: 0.8em, counter(heading).display())) + "."
+        emph(text(size: 0.8em, counter(heading).display()))
+          + "."
           + h(0.5em)
           + body-fmt(it.body)
-          + box(width: 1fr, align(right, line(length: 100% - 0.8em, start: (0%, -0.225em), stroke: (
-            paint: black,
-            cap: "round",
-          ))))
+          + if use-line {
+            box(width: 1fr, align(right, line(length: 100% - 0.8em, start: (0%, -0.225em), stroke: (
+              paint: black,
+              cap: "round",
+            ))))
+          }
       ),
     )
   }
 
-  show heading.where(level: 2): heading-func.with(body-fmt: emph)
+  show heading.where(level: 2): heading-func.with(body-fmt: emph, use-line: true)
   show heading.where(level: 2): set text(size: 1.1em)
   show heading.where(level: 2): it => {
     set block(above: 0em, below: 0em)
@@ -241,8 +244,8 @@
       }
         + if it.outlined {
           emph[
-            #linebreak()
-            #h(0.125em)Chapter #counter(heading).display()
+            #v(0.9em, weak: true)
+            #h(0.125em)#smallcaps[Chapter] #counter(heading).display()
           ]
         },
     )
