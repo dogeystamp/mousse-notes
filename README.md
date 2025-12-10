@@ -6,7 +6,7 @@ inspired by typical LaTeX styles.
 To use it, install this package to your local system (this package is currently not published to Typst Universe):
 
 ```
-git clone --depth 1 --branch 0.6.5 --single-branch https://github.com/dogeystamp/mousse-notes.git .local/share/typst/packages/local/mousse-notes/0.6.5
+git clone --depth 1 --branch 0.6.6 --single-branch https://github.com/dogeystamp/mousse-notes.git .local/share/typst/packages/local/mousse-notes/0.6.6
 ```
 
 Then you can initialize a Typst project as follows:
