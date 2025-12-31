@@ -261,7 +261,7 @@
 }
 
 /// Theorem environment. Optionally can have a name, like "Rolle's" theorem.
-#let thm-env(kind, fmt: it => it, body_fmt: it => it, numbered: true, counter-type: "thmlike") = {
+#let thm-env(kind, fmt: it => it, body-fmt: it => it, numbered: true, counter-type: "thmlike") = {
   return (body, name: none, id: none, breakable: true) => {
     let ctr = counter("moussethm-" + counter-type)
     if numbered {
@@ -273,7 +273,7 @@
     // un-italicize numbering in theorems
     set enum(numbering: (..nums) => {
       let content = numbering("(1)", ..nums)
-      if body_fmt == emph {
+      if body-fmt == emph {
         emph(content)
       } else {
         content
@@ -290,7 +290,7 @@
           {
             let number = context [ #counter(heading).get().at(0).#ctr.display()]
             (
-              fmt[#kind#if numbered { number }] + if name != none [ *(#name)*] + fmt[.] + h(0.1em) + body_fmt(body)
+              fmt[#kind#if numbered { number }] + if name != none [ *(#name)*] + fmt[.] + h(0.1em) + body-fmt(body)
             )
           },
         )#if id != none { label(id) }
@@ -302,11 +302,11 @@
 
 #let smallcaps-strong = it => smallcaps(strong(it))
 
-#let theorem = thm-env("Theorem", fmt: smallcaps-strong, body_fmt: emph)
-#let proposition = thm-env("Proposition", fmt: smallcaps-strong, body_fmt: emph)
-#let lemma = thm-env("Lemma", fmt: smallcaps-strong, body_fmt: emph)
-#let corollary = thm-env("Corollary", fmt: smallcaps-strong, body_fmt: emph)
-#let definition = thm-env("Definition", fmt: smallcaps-strong, body_fmt: emph)
+#let theorem = thm-env("Theorem", fmt: smallcaps-strong, body-fmt: emph)
+#let proposition = thm-env("Proposition", fmt: smallcaps-strong, body-fmt: emph)
+#let lemma = thm-env("Lemma", fmt: smallcaps-strong, body-fmt: emph)
+#let corollary = thm-env("Corollary", fmt: smallcaps-strong, body-fmt: emph)
+#let definition = thm-env("Definition", fmt: smallcaps-strong, body-fmt: emph)
 #let example = thm-env("Example", fmt: it => strong(it), counter-type: "example")
 #let solution = thm-env("Solution", fmt: emph, numbered: false)
 #let proof = thm-env("Proof", fmt: emph, numbered: false)
