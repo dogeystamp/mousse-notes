@@ -35,3 +35,5 @@ Alternatively, use `git worktree add` to create a worktree at
 
 Run `just doc` to generate thumbnails for the docs. To make a release, make a
 `v1.x.x` version tag and push it to GitHub.
+
+Versioning does not adhere to SemVer, and instead uses [Pride Versioning](https://pridever.org/).
