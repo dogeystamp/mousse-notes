@@ -6,8 +6,8 @@ export TYPST_ROOT := root
 default:
   @just --list --unsorted
 
-# generate stuff for docs
-doc:
+# generate images for docs
+thumbnail:
   mkdir -p doc
   cat template/main.typ | sed 's/#import "@preview.mousse-notes:.*/#import "\/src\/lib.typ" as mousse-notes: */g' > doc/main.typ
   typst compile -f png --pages 1 --ppi 250 doc/main.typ thumbnail.png
@@ -37,4 +37,4 @@ uninstall: (remove "@local")
 uninstall-preview: (remove "@preview")
 
 # run ci suite
-ci: doc
+ci:
