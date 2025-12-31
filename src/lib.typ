@@ -3,7 +3,7 @@
 /// Manual override for indent (see https://github.com/typst/typst/issues/3206)
 #let indent = h(INDENT)
 
-#let title_page(
+#let title-page(
   title: none,
   subtitle: none,
   subsubtitle: none,
@@ -182,7 +182,7 @@
     }
   }
 
-  title_page(
+  title-page(
     author: author,
     title: title,
     subtitle: subtitle,
@@ -261,7 +261,7 @@
 }
 
 /// Theorem environment. Optionally can have a name, like "Rolle's" theorem.
-#let thmenv(kind, fmt: it => it, body_fmt: it => it, numbered: true, counter-type: "thmlike") = {
+#let thm-env(kind, fmt: it => it, body_fmt: it => it, numbered: true, counter-type: "thmlike") = {
   return (body, name: none, id: none, breakable: true) => {
     let ctr = counter("moussethm-" + counter-type)
     if numbered {
@@ -302,15 +302,15 @@
 
 #let smallcaps-strong = it => smallcaps(strong(it))
 
-#let theorem = thmenv("Theorem", fmt: smallcaps-strong, body_fmt: emph)
-#let proposition = thmenv("Proposition", fmt: smallcaps-strong, body_fmt: emph)
-#let lemma = thmenv("Lemma", fmt: smallcaps-strong, body_fmt: emph)
-#let corollary = thmenv("Corollary", fmt: smallcaps-strong, body_fmt: emph)
-#let definition = thmenv("Definition", fmt: smallcaps-strong, body_fmt: emph)
-#let example = thmenv("Example", fmt: it => strong(it), counter-type: "example")
-#let solution = thmenv("Solution", fmt: emph, numbered: false)
-#let proof = thmenv("Proof", fmt: emph, numbered: false)
-#let remark = thmenv("Remark", fmt: it => strong(emph(it)), numbered: false)
+#let theorem = thm-env("Theorem", fmt: smallcaps-strong, body_fmt: emph)
+#let proposition = thm-env("Proposition", fmt: smallcaps-strong, body_fmt: emph)
+#let lemma = thm-env("Lemma", fmt: smallcaps-strong, body_fmt: emph)
+#let corollary = thm-env("Corollary", fmt: smallcaps-strong, body_fmt: emph)
+#let definition = thm-env("Definition", fmt: smallcaps-strong, body_fmt: emph)
+#let example = thm-env("Example", fmt: it => strong(it), counter-type: "example")
+#let solution = thm-env("Solution", fmt: emph, numbered: false)
+#let proof = thm-env("Proof", fmt: emph, numbered: false)
+#let remark = thm-env("Remark", fmt: it => strong(emph(it)), numbered: false)
 
 /// Quick macro to "glue" text to the next element.
 //
