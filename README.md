@@ -1,4 +1,4 @@
-# The `my-package` Package
+# Mousse Notes
 
 A [Typst](https://typst.app) template for taking course notes, inspired by old-ish math books.
 
