@@ -337,3 +337,4 @@
     ..(args.pos() + (table.hline(stroke: 1pt),)),
   )
 }
+

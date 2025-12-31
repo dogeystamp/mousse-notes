@@ -1,4 +1,4 @@
-#import "@local/mousse-notes:0.6.6": *
+#import "@preview/mousse-notes:1.0.0": *
 #set page(paper: "us-letter")
 #show: book.with(
   title: [WUNK 101],
@@ -190,4 +190,5 @@ Use these the same way you'd use Typst's default tables.
 )
 
 Image figures in #mousse also work.
+
 

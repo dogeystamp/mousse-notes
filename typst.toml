@@ -1,14 +1,27 @@
+# for a description of available keys, see https://github.com/typst/packages/?tab=readme-ov-file#package-format
+
 [package]
 name = "mousse-notes"
-version = "0.6.6"
-entrypoint = "lib.typ"
+version = "1.0.0"
+entrypoint = "src/lib.typ"
 authors = ["dogeystamp <dogeystamp@disroot.org>"]
 license = "MIT-0"
-description = "Typeset notes, with a style inspired by LaTeX."
+description = "Typeset notes, with a style inspired by old math books."
+homepage = "https://github.com/dogeystamp/mousse-notes"
+repository = "https://github.com/dogeystamp/mousse-notes"
+keywords = []
+categories = []
 disciplines = ["computer-science", "mathematics"]
-categories = ["book"]
 compiler = "0.13.1"
-exclude = ["thumbnail_pages.png"]
+exclude = [
+  ".github",
+  "doc",
+  "scripts",
+  "tests",
+  ".typstignore",
+  "Justfile",
+  "thumbnail-pages.png",
+]
 
 [template]
 path = "template"

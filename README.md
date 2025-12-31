@@ -1,26 +1,37 @@
-**Mousse notes** is a template for typesetting notes in [Typst](https://typst.app),
-inspired by typical LaTeX styles.
+# The `my-package` Package
 
-![Screenshot of the template](thumbnail_pages.png)
+A [Typst](https://typst.app) template for taking course notes, inspired by old-ish math books.
 
-To use it, install this package to your local system (this package is currently not published to Typst Universe):
+<picture>
+  <img src="thumbnail-pages.png">
+</picture>
+
+## Getting Started
+
+On the Typst web app, use "Start from template" and select this template to
+create a new file with Mousse. For the Typst CLI, run
 
 ```
-git clone --depth 1 --branch 0.6.6 --single-branch https://github.com/dogeystamp/mousse-notes.git .local/share/typst/packages/local/mousse-notes/0.6.6
+typst init @preview/mousse-notes dir
 ```
 
-Then you can initialize a Typst project as follows:
+to create a Mousse notes directory.
 
-```
-typst init @local/mousse-notes [directory name]
-```
+## Documentation
 
-- The main template entry point is the `book` function. All of its parameters are optional.
-- Functions for math are given: `theorem`, `lemma`, `corollary`, `definition`,
-    `example`, `solution`, `proof` and `remark`.
-    You may create your own theorem environments with the `thmenv` function.
-- A `glue` function is also given to work around Typst's page-breaking and prevent paragraphs and math equations from being split apart.
-- The `tablef` function is a wrapper over `table` that provides LaTeX-style tables.
+The documentation for this package is included directly in the template. See
+`template/main.typ`, or instantiate the template to see how to use this
+package.
 
-The default template provides example usages of some of these functions.
-Math equations are automatically numbered if they are assigned a label.
+### Development
+
+To install this package for development, install Typst,
+[Just](https://github.com/casey/just), and `optipng`. Clone this git
+repository, then use `just install` to install the package to the `@local`
+namespace.
+
+Alternatively, use `git worktree add` to create a worktree at
+`~/.local/share/typst/packages/local/mousse-notes`.
+
+Run `just doc` to generate thumbnails for the docs. To make a release, make a
+`v1.x.x` version tag and push it to GitHub.
