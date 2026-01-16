@@ -64,9 +64,8 @@
   set enum(indent: INDENT, numbering: "1.")
   set terms(hanging-indent: INDENT)
 
-  // break block equations; don't break inline eqs
+  // break block equations
   show math.equation: set block(breakable: true)
-  show math.equation.where(block: false): it => box(it)
 
   show enum: set block(breakable: true)
   show list: set block(breakable: true)
