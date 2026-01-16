@@ -68,6 +68,9 @@
   show math.equation: set block(breakable: true)
   show math.equation.where(block: false): it => box(it)
 
+  show enum: set block(breakable: true)
+  show list: set block(breakable: true)
+
   set document(author: if author != none { author } else { () }, title: title)
 
   set page(
@@ -263,6 +266,8 @@
 /// Theorem environment. Optionally can have a name, like "Rolle's" theorem.
 #let thm-env(kind, fmt: it => it, body-fmt: it => it, numbered: true, counter-type: "thmlike") = {
   return (body, name: none, id: none, breakable: true) => {
+    let MARGIN = 1.5em
+
     let ctr = counter("moussethm-" + counter-type)
     if numbered {
       ctr.step()
@@ -280,8 +285,33 @@
       }
     })
 
-    v(weak: true, 1.5em)
+    v(weak: true, MARGIN)
+
+    let space = [
+      a
+    ]
+      .children
+      .at(0)
+      .func()
+
+    let body-elems = if body.has("children") {
+      // filter out spaces from start of body
+      body
+        .children
+        .enumerate()
+        .filter(
+          ((i, x)) => {
+            not (i == 0 and x.func() == space)
+          },
+        )
+        .map(((i, x)) => x)
+    } else {
+      (body,)
+    }
+    // let body = body-elems.join()
+
     [
+
       #block(width: 100%, breakable: breakable, above: 0em, below: 0em, [
         #figure(
           kind: kind,
@@ -289,16 +319,29 @@
           numbering: (..levels) => [#counter(heading).get().at(0).#ctr.display()],
           {
             let number = context [ #counter(heading).get().at(0).#ctr.display()]
+            let thm-heading-content = fmt[#kind#if numbered { number }] + if name != none [ *(#name)*] + fmt[.]
+
+            let block-funcs = (list.item, enum.item, math.equation)
+
+            let thm-heading = if body-elems.at(0, default: none).func() in block-funcs {
+              // heading, and then thm content on a new line
+              // use sticky to prevent heading from being page-broken apart from the content
+              block(sticky: true, thm-heading-content)
+            } else {
+              // heading, and thm content on the same line
+              thm-heading-content + h(0.35em, weak: true)
+            }
             (
-              fmt[#kind#if numbered { number }] + if name != none [ *(#name)*] + fmt[.] + h(0.1em) + body-fmt(body)
+              thm-heading + body-fmt(body)
             )
           },
         )#if id != none { label(id) }
       ])
     ]
-    v(weak: true, 1.5em)
+    v(weak: true, MARGIN)
   }
 }
+
 
 #let smallcaps-strong = it => smallcaps(strong(it))
 
