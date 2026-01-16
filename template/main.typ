@@ -1,4 +1,4 @@
-#import "@preview/mousse-notes:1.0.0": *
+#import "@preview/mousse-notes:1.1.0": *
 #set page(paper: "us-letter")
 #show: book.with(
   title: [WUNK 101],
