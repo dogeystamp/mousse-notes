@@ -279,12 +279,9 @@
 
     // un-italicize numbering in theorems
     set enum(numbering: (..nums) => {
-      let content = numbering("(1)", ..nums)
-      if body-fmt == emph {
-        emph(content)
-      } else {
-        content
-      }
+      // if theorem is italics, do normal text, and vice versa
+      set text(style: ("italic": "normal", "normal": "italic").at(text.style, default: "normal"))
+      numbering("(1)", ..nums)
     })
 
     v(weak: true, MARGIN)
