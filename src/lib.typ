@@ -57,9 +57,12 @@
   subsubtitle: none,
   subsubsubtitle: none,
   epigraph: none,
+  font: "New Computer Modern",
+  font-math: "New Computer Modern Math",
   body,
 ) = {
-  set text(font: "New Computer Modern")
+  set text(font: font)
+  show math.equation: set text(font: font-math)
   set par(first-line-indent: (amount: INDENT, all: false), justify: true, spacing: 0.5em + 1pt, leading: 0.5em + 1pt)
   set enum(indent: INDENT, numbering: "1.")
   set terms(hanging-indent: INDENT)
