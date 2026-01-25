@@ -310,7 +310,6 @@
     } else {
       (body,)
     }
-    // let body = body-elems.join()
 
     [
 
@@ -323,9 +322,12 @@
             let number = context [ #counter(heading).get().at(0).#ctr.display()]
             let thm-heading-content = fmt[#kind#if numbered { number }] + if name != none [ *(#name)*] + fmt[.]
 
-            let block-funcs = (list.item, enum.item, math.equation)
+            let first-elem = body-elems.at(0, default: none)
 
-            let thm-heading = if body-elems.at(0, default: none).func() in block-funcs {
+            let block-funcs = (list.item, enum.item)
+            let is-block = first-elem.func() in block-funcs or (first-elem.func() == math.equation and first-elem.block)
+
+            let thm-heading = if is-block {
               // heading, and then thm content on a new line
               // use sticky to prevent heading from being page-broken apart from the content
               block(sticky: true, thm-heading-content)
@@ -333,9 +335,7 @@
               // heading, and thm content on the same line
               thm-heading-content + h(0.35em, weak: true)
             }
-            (
-              thm-heading + body-fmt(body)
-            )
+            thm-heading + body-fmt(body)
           },
         )#if id != none { label(id) }
       ])
