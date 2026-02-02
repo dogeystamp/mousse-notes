@@ -57,12 +57,22 @@
   subsubtitle: none,
   subsubsubtitle: none,
   epigraph: none,
-  font: "New Computer Modern",
-  font-math: "New Computer Modern Math",
+  fonts: (
+    serif: (
+      text: "New Computer Modern",
+      math: "New Computer Modern Math",
+    ),
+    sans: (
+      text: "Fira Sans",
+      math: "Fira Math",
+    ),
+  ),
+  font-style: "serif",
   body,
 ) = {
-  set text(font: font)
-  show math.equation: set text(font: font-math)
+  set text(font: fonts.at(font-style).at("text"))
+  show math.equation: set text(font: fonts.at(font-style).at("math"))
+
   set par(first-line-indent: (amount: INDENT, all: false), justify: true, spacing: 0.5em + 1pt, leading: 0.5em + 1pt)
   set enum(indent: INDENT, numbering: "1.")
   set terms(hanging-indent: INDENT)
@@ -277,12 +287,15 @@
     show figure: set align(start)
     show figure: it => it.body
 
-    // un-italicize numbering in theorems
-    set enum(numbering: (..nums) => {
-      // if theorem is italics, do normal text, and vice versa
-      set text(style: ("italic": "normal", "normal": "italic").at(text.style, default: "normal"))
-      numbering("(1)", ..nums)
-    })
+    let body-fmt-internal = it => {
+      // un-italicize numbering in theorems
+      set enum(numbering: (..nums) => {
+        show emph: it => it.body
+        body-fmt(numbering("(1)", ..nums))
+      })
+      show text: body-fmt
+      it
+    }
 
     v(weak: true, MARGIN)
 
@@ -332,7 +345,7 @@
               // heading, and thm content on the same line
               thm-heading-content + h(0.35em, weak: true)
             }
-            thm-heading + body-fmt(body)
+            thm-heading + body-fmt-internal(body)
           },
         )#if id != none { label(id) }
       ])
