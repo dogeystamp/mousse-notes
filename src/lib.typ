@@ -267,6 +267,8 @@
   }
   show enum: it => { v(0.9em, weak: true) + it + v(0.9em, weak: true) }
 
+  show figure: it => {v(3em, weak: true) + it + v(2em, weak: true)}
+  show figure.caption: emph
   show figure.where(kind: table): set figure.caption(position: top)
   show figure.where(kind: table): set figure(gap: 1em)
   show figure.where(kind: table): it => { v(1.5em, weak: true) + it + v(2em, weak: true) }
