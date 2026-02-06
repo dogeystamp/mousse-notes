@@ -279,7 +279,7 @@
 
 /// Theorem environment. Optionally can have a name, like "Rolle's" theorem.
 #let thm-env(kind, fmt: it => it, body-fmt: it => it, numbered: true, counter-type: "thmlike") = {
-  return (body, name: none, id: none, breakable: true) => {
+  return (body, name: none, id: none, breakable: true, numbering-internal: "(1)") => {
     let MARGIN = 1.5em
 
     let ctr = counter("moussethm-" + counter-type)
@@ -293,7 +293,7 @@
       // un-italicize numbering in theorems
       set enum(numbering: (..nums) => {
         show emph: it => it.body
-        body-fmt(numbering("(1)", ..nums))
+        body-fmt(std.numbering(numbering-internal, ..nums))
       })
       show text: body-fmt
       it
