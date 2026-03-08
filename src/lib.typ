@@ -83,6 +83,17 @@
   show enum: set block(breakable: true)
   show list: set block(breakable: true)
 
+  // --- CODE BLOCKS
+  show raw: set block(
+    fill: rgb("#f7f7f7"),
+    inset: (left: 1em, top: 1em, bottom: 1em),
+    above: 1em,
+    below: 1em,
+    width: 100%,
+  )
+  show raw.where(block: true): set text(size: 0.8em)
+  show raw.where(block: false): set text(size: 0.9em)
+
   set document(author: if author != none { author } else { () }, title: title)
 
   set page(
@@ -267,7 +278,7 @@
   }
   show enum: it => { v(0.9em, weak: true) + it + v(0.9em, weak: true) }
 
-  show figure: it => {v(3em, weak: true) + it + v(2em, weak: true)}
+  show figure: it => { v(3em, weak: true) + it + v(2em, weak: true) }
   show figure.caption: emph
   show figure.where(kind: table): set figure.caption(position: top)
   show figure.where(kind: table): set figure(gap: 1em)
