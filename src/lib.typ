@@ -92,7 +92,6 @@
     width: 100%,
   )
   show raw.where(block: true): set text(size: 0.8em)
-  show raw.where(block: false): set text(size: 0.9em)
 
   set document(author: if author != none { author } else { () }, title: title)
 
