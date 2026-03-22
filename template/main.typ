@@ -13,6 +13,7 @@
   epigraph: quote(
     attribution: [Jonathan Bingus],
   )[This is a tremendously inspirational quote that sets the tone of this course; truly, one of the epigraphs of all time.],
+  font-style: "serif",
 )
 
 // This is a demo of how Mousse looks like for taking notes:
@@ -191,4 +192,25 @@ Use these the same way you'd use Typst's default tables.
 
 Image figures in #mousse also work.
 
+== Fonts
 
+Use the `style` option in the entry point to select a font style;
+as of now, `"serif"` and `"sans"` are the available options.
+Serif is the default and is better supported.
+To pick which fonts styles map to, set the `fonts` option,
+whose default value is as follows:
+```typst
+  fonts: (
+    serif: (
+      text: "New Computer Modern",
+      math: "New Computer Modern Math",
+    ),
+    sans: (
+      text: "Fira Sans",
+      math: "Fira Math",
+    ),
+  )
+```
+
+New Computer Modern is always available in Typst; the Fira family of fonts
+may have to be installed separately.
