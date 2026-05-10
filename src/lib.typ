@@ -136,7 +136,7 @@
       let chap = if current_chapter != none {
         smallcaps(current_chapter.body)
       }
-      let chap_num = if current_chapter != none [
+      let chap_num = if current_chapter != none and current_chapter.numbering != none [
         chap. #numbering(current_chapter.numbering, ..counter(heading).at(current_chapter.location()))
       ]
 
