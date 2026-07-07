@@ -1,0 +1,320 @@
+/// Styles for paged documents
+
+#import "_constants.typ": *
+
+/// Math element style
+#let style-math(it) = {
+  show math.equation: it => {
+    set text(font: FONTS.at("math"))
+    it
+  }
+
+  show math.equation.where(block: true): it => {
+    set block(breakable: true)
+    it
+  }
+
+  show math.qed: "▮"
+
+  set math.equation(numbering: "(1)")
+  // only number labelled equations
+  show math.equation: it => {
+    // https://forum.typst.app/t/how-to-conditionally-enable-equation-numbering-for-labeled-equations/977
+    if it.block and not it.has("label") [
+      #counter(math.equation).update(v => v - 1)
+      #math.equation(it.body, block: true, numbering: none)#label("mousse_NOLABEL")
+    ] else {
+      it
+    }
+  }
+
+  // show equation references as simply (1)
+  show ref: it => {
+    if it.element.func() == math.equation and it.element.numbering != none and it.element != none {
+      link(
+        it.element.location(),
+        numbering(
+          it.element.numbering,
+          ..counter(math.equation).at(it.element.location()),
+        ),
+      )
+    } else {
+      it
+    }
+  }
+
+  it
+}
+
+/// Paragraph & body text style
+#let style-body(it) = {
+  set text(font: FONTS.at("body"))
+  set par(
+    first-line-indent: (amount: INDENT, all: false),
+    justify: true,
+    spacing: SPACING,
+    leading: LEADING,
+  )
+
+  // Lists
+  set terms(hanging-indent: INDENT)
+  set enum(indent: INDENT, numbering: "1.")
+  set list(indent: INDENT)
+
+  let f(it) = {
+    set block(breakable: true)
+    v(LEADING)
+    it
+    v(LEADING)
+  }
+
+  show list: f
+  show enum: f
+  show terms: f
+
+  it
+}
+
+/// Code block / raw text style
+#let style-code(it) = {
+  show raw: set block(
+    fill: rgb("#f7f7f7"),
+    inset: (left: 1em, top: 1em, bottom: 1em),
+    above: 1em,
+    below: 1em,
+    width: 100%,
+  )
+  show raw.where(block: true): set text(size: 0.8em)
+  it
+}
+
+/// Section heading style
+#let style-heading(it) = {
+  // Chapter
+  show heading.where(level: 1): it => {
+    set heading(supplement: [Chapter])
+    pagebreak(weak: true)
+    set text(weight: "regular", hyphenate: false)
+    set par(first-line-indent: 0.0em)
+    block(
+      inset: (left: -0.2em),
+      height: 15% - 1em,
+      {
+        set text(size: 2em)
+        (emph(it.body))
+      }
+        + if it.outlined {
+          emph[
+            #v(0.9em, weak: true)
+            #h(0.125em)#smallcaps[Chapter] #counter(heading).display()
+          ]
+        },
+    )
+  }
+
+  // Generic section header function
+  let heading-func = (body-fmt: emph, use-line: false, it) => {
+    set text(weight: "regular")
+    block(
+      sticky: true,
+      {
+        emph(text(size: 0.8em, counter(heading).display()))
+        "."
+        h(0.5em)
+        body-fmt(it.body)
+        if use-line {
+          show: box.with(width: 1fr)
+          show: align.with(right)
+          line(
+            length: 100% - 0.8em,
+            start: (0%, -0.225em),
+            stroke: (
+              paint: black,
+              cap: "round",
+              thickness: 0.75pt,
+            ),
+          )
+        }
+      },
+    )
+  }
+
+  // Section
+  show heading.where(level: 2): it => {
+    set text(size: 1.1em)
+    v(2em, weak: true)
+    heading-func(use-line: true, it)
+    v(0.75em, weak: true)
+  }
+
+  // Sub-section
+  show heading.where(level: 3): it => {
+    set text(size: 1.05em)
+    v(2em, weak: true)
+    heading-func(it)
+    v(0.75em, weak: true)
+  }
+
+  // Sub-sub-section
+  show heading.where(level: 4): it => {
+    heading-func(it)
+  }
+
+  // Styles for all headings
+  show heading: it => {
+    set text(font: FONTS.at("heading"))
+    it
+  }
+  set heading(numbering: "1.1.1a")
+
+  it
+}
+
+#let style-link(it) = {
+  show link: it => {
+    if type(it.dest) != str {
+      // local link
+      it
+    } else if (it.body == [#it.dest]) {
+      // URL (no custom text)
+      set text(fill: blue)
+      set text(font: "DejaVu Sans Mono", size: 0.8em)
+      box(it)
+    } else {
+      // URL (custom text)
+      set text(fill: blue)
+      show text: underline
+      box(it)
+    }
+  }
+
+  it
+}
+
+#let _footer = context {
+  let current-chapter = query(selector(heading.where(level: 1)).before(here())).at(-1, default: none)
+  let is-chapter-heading = current-chapter != none and current-chapter.location().page() == here().page()
+
+  if not is-chapter-heading {
+    return
+  }
+
+  let page = counter(page).display()
+  set text(size: 9pt)
+  place(center + horizon, page)
+}
+
+#let _header = context {
+  let page_num = counter(page).get().at(0)
+  let title-page = query(label("mousse-title-page")).at(0, default: none)
+  if title-page != none and title-page.location().page() == here().page() {
+    return
+  }
+
+  let chapter-right-after = query(selector(heading.where(level: 1)).after(here())).at(0, default: none)
+  let sec-right-after = query(selector(heading.where(level: 2)).after(here())).at(0, default: none)
+  let sec-right-before = query(selector(heading.where(level: 2)).before(here())).at(-1, default: none)
+
+  let current-chapter = query(selector(heading.where(level: 1)).before(here())).at(-1, default: none)
+  let current-sec = if sec-right-after != none and sec-right-after.location().page() == here().page() {
+    sec-right-after
+  } else {
+    sec-right-before
+  }
+
+  let is-chapter-heading = chapter-right-after != none and chapter-right-after.location().page() == here().page()
+
+  if is-chapter-heading {
+    return
+  }
+
+  let page = counter(page).display()
+  let chap = if current-chapter != none {
+    smallcaps(current-chapter.body)
+  }
+  let chap_num = if current-chapter != none and current-chapter.numbering != none [
+    chap. #numbering(current-chapter.numbering, ..counter(heading).at(current-chapter.location()))
+  ]
+
+  let sec_num = if current-sec != none [
+    sec. #numbering(current-sec.numbering, ..counter(heading).at(current-sec.location()))
+  ]
+
+  set text(size: 9pt)
+
+  if calc.even(page_num) {
+    place(left + horizon, page)
+    place(center + horizon, smallcaps(document.title))
+    if not is-chapter-heading {
+      place(right + horizon, smallcaps(chap_num))
+    }
+  } else {
+    if not is-chapter-heading {
+      place(left + horizon, smallcaps(sec_num))
+      place(center + horizon, chap)
+    }
+    place(right + horizon, page)
+  }
+}
+
+/// Page header and footer style
+#let style-header-footer(it) = {
+  set page(footer: _footer, header: _header)
+  it
+}
+
+/// Figures style
+#let style-figures(it) = {
+  show figure: it => {
+    v(LEADING * 4, weak: true)
+    it
+    v(LEADING * 4, weak: true)
+  }
+
+  show figure.caption: it => {
+    set text(size: 0.9em)
+    smallcaps[#it.supplement #it.counter.display()#it.separator]
+    it.body
+  }
+
+  show figure.where(kind: table): it => {
+    set table.hline(stroke: 0.5pt)
+    set table(
+      align: left,
+      stroke: (_, y) => (
+        top: if y <= 1 { 1pt } else { 0pt },
+        bottom: 1pt,
+      ),
+    )
+    show table.cell.where(y: 0): it => {
+      show text: emph
+      it
+    }
+    set figure.caption(position: top)
+    set figure(gap: 1em)
+    it
+  }
+
+  it
+}
+
+/// Main style entry point
+#let style(body) = {
+  show: style-body
+  show: style-heading
+  show: style-math
+  show: style-code
+  show: style-figures
+  show: style-header-footer
+  show: style-link
+
+  // Update counters on new chapter
+  show heading.where(level: 1): it => {
+    counter(footnote).update(0)
+    counter("moussethm-thmlike").update(0)
+    counter("moussethm-example").update(0)
+    it
+  }
+
+  body
+}
