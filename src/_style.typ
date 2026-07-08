@@ -90,28 +90,6 @@
 
 /// Section heading style
 #let style-heading(it) = {
-  // Chapter
-  show heading.where(level: 1): it => {
-    set heading(supplement: [Chapter])
-    pagebreak(weak: true)
-    set text(weight: "regular", hyphenate: false)
-    set par(first-line-indent: 0.0em)
-    block(
-      inset: (left: -0.2em),
-      height: 15% - 1em,
-      {
-        set text(size: 2em)
-        (emph(it.body))
-      }
-        + if it.outlined {
-          emph[
-            #v(0.9em, weak: true)
-            #h(0.125em)#smallcaps[Chapter] #counter(heading).display()
-          ]
-        },
-    )
-  }
-
   // Generic section header function
   let heading-func = (body-fmt: emph, use-line: false, it) => {
     set text(weight: "regular")
@@ -139,6 +117,27 @@
     )
   }
 
+  // Chapter
+  show heading.where(level: 1): it => {
+    set heading(supplement: [Chapter])
+    pagebreak(weak: true)
+    set par(first-line-indent: 0.0em)
+    block(
+      inset: (left: -0.2em),
+      height: 15% - 1em,
+      {
+        set text(size: 2em)
+        (emph(it.body))
+      }
+        + if it.outlined {
+          emph[
+            #v(0.9em, weak: true)
+            #h(0.125em)#smallcaps[Chapter] #counter(heading).display()
+          ]
+        },
+    )
+  }
+
   // Section
   show heading.where(level: 2): it => {
     set text(size: 1.1em)
@@ -162,7 +161,11 @@
 
   // Styles for all headings
   show heading: it => {
-    set text(font: FONTS.at("heading"))
+    set text(
+      font: FONTS.at("heading"),
+      hyphenate: false,
+      weight: "regular",
+    )
     it
   }
   set heading(numbering: "1.1.1a")
