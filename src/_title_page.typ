@@ -28,7 +28,7 @@
 
   place(bottom + center, {
     {
-      set text(size: 1.75em)
+      set text(size: 1.25em)
       upper(footer)
     }
     v(4em, weak: true)

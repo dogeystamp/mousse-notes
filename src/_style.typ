@@ -63,9 +63,9 @@
 
   let f(it) = {
     set block(breakable: true)
-    v(LEADING)
+    v(weak: true, LEADING)
     it
-    v(LEADING)
+    v(weak: true, LEADING)
   }
 
   show list: f
