@@ -301,15 +301,35 @@
   it
 }
 
+// Workaround for https://github.com/typst/typst/issues/3206
+// Must be the last show rule, because we can't recurse into `styled()` elements
+#let _box-math(rest) = {
+  let sequence = [].func()
+  let styled = {
+    show text: it => it
+    [aaaa]
+  }.func()
+
+  for it in rest.children {
+    if (it.func() == math.equation and it.block) {
+      linebreak()
+      box(width: 100%, it)
+      linebreak()
+    } else {
+      it
+    }
+  }
+}
+
 /// Main style entry point
 #let style(body) = {
   show: style-body
   show: style-heading
-  show: style-math
   show: style-code
   show: style-figures
   show: style-header-footer
   show: style-link
+  show: style-math
 
   // Update counters on new chapter
   show heading.where(level: 1): it => {
@@ -318,6 +338,10 @@
     counter("moussethm-example").update(0)
     it
   }
+
+  // DO NOT TOUCH ANYTHING BELOW
+
+  show: _box-math
 
   body
 }
