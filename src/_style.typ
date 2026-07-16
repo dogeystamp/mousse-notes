@@ -345,7 +345,10 @@
 #let _box-math(rest) = {
   for it in rest.children {
     if (it.func() == math.equation and it.block) {
-      linebreak()
+      // separate the equation from the prior paragraph without breaking the
+      // paragraph
+      v(LEADING / 4, weak: true)
+      // prevent math block from breaking the paragraph
       box(width: 100%, it)
       linebreak()
     } else {
