@@ -320,11 +320,9 @@
 #let _style-ref = it => {
   show ref: it => context {
     let target = it.element
-    if target == none {
-      return it
-    }
     if (
-      target.has("body")
+      target != none
+        and target.has("body")
         and target.body.has("children")
         and target.body.children.len() > 0
         and target.body.children.first().func() == metadata
