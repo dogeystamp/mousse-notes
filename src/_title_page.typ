@@ -37,7 +37,7 @@
     }
   })
 
-  [#v(0em) <mousse-title-page>]
+  [#v(0em) <__mousse_title_page>]
 
   pagebreak()
 }

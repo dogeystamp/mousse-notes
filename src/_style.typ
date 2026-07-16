@@ -22,7 +22,7 @@
     // https://forum.typst.app/t/how-to-conditionally-enable-equation-numbering-for-labeled-equations/977
     if it.block and not it.has("label") [
       #counter(math.equation).update(v => v - 1)
-      #math.equation(it.body, block: true, numbering: none)#label("mousse_NOLABEL")
+      #math.equation(it.body, block: true, numbering: none)#label("__mousse_NOLABEL")
     ] else {
       it
     }
@@ -30,7 +30,9 @@
 
   // show equation references as simply (1)
   show ref: it => {
-    if it.element.func() == math.equation and it.element.numbering != none and it.element != none {
+    if (
+      it.has("element") and it.element != none and it.element.func() == math.equation and it.element.numbering != none
+    ) {
       link(
         it.element.location(),
         numbering(
@@ -209,7 +211,7 @@
 
 #let _header = context {
   let page_num = counter(page).get().at(0)
-  let title-page = query(label("mousse-title-page")).at(0, default: none)
+  let title-page = query(label("__mousse_title_page")).at(0, default: none)
   if title-page != none and title-page.location().page() == here().page() {
     return
   }
@@ -301,15 +303,46 @@
   it
 }
 
+/// Handle references to theorem environments.
+///
+/// Implementation trick from typst-marginalia v0.3.0.
+/// https://github.com/nleanba/typst-marginalia/blob/382e640c38e7229d4303ba09c773b5d04a898f03/lib.typ
+///
+/// Details:
+/// - Theorems are identified with a special `metadata()` tag at the beginning.
+/// - Theorems know their index by counting how many theorems were before them.
+/// - This index is used to uniquely label the `figure()` within the theorem.
+/// - The labelling step is within an opaque `context` block. To expose the
+///   label to outsiders, we use a `metadata` element.
+/// - Whenever a `ref()` occurs, and its target contains the special metadata
+///   tag, intercept the reference, and make it point to the `figure()` instead
+///   of the `#theorem[]` sequence.
+#let _style-ref = it => {
+  show ref: it => context {
+    let target = it.element
+    if target == none {
+      return it
+    }
+    if (
+      target.has("body")
+        and target.body.has("children")
+        and target.body.children.len() > 0
+        and target.body.children.first().func() == metadata
+        and target.body.children.first().value == "__mousse_thmenv"
+    ) {
+      let dest-meta = query(selector(<__mousse_thm_figure_meta>).after(target.location())).at(0)
+      ref(dest-meta.value.label)
+    } else {
+      it
+    }
+  }
+
+  it
+}
+
 // Workaround for https://github.com/typst/typst/issues/3206
 // Must be the last show rule, because we can't recurse into `styled()` elements
 #let _box-math(rest) = {
-  let sequence = [].func()
-  let styled = {
-    show text: it => it
-    [aaaa]
-  }.func()
-
   for it in rest.children {
     if (it.func() == math.equation and it.block) {
       linebreak()
@@ -339,8 +372,10 @@
     it
   }
 
-  // DO NOT TOUCH ANYTHING BELOW
+  // DO NOT TOUCH ANYTHING BELOW (cursed workarounds)
 
+  show: _style-ref
+  // this needs to be the very last show rule
   show: _box-math
 
   body
