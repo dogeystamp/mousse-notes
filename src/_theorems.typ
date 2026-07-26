@@ -1,7 +1,7 @@
 /// Theorem environments
 
 #import "_constants.typ": LEADING
-#import "_style.typ": _box-math
+#import "_style.typ": _box-blocks
 
 /// Function that generates theorem environment functions.
 ///
@@ -85,7 +85,7 @@
           // heading, and thm content on the same line
           thm-heading-content + h(0.35em, weak: true)
         }
-        thm-heading + body-fmt-internal(_box-math(body))
+        thm-heading + body-fmt-internal(_box-blocks(body))
       },
     )
 

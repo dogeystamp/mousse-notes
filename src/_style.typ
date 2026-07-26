@@ -271,9 +271,9 @@
 /// Figures style
 #let style-figures(it) = {
   show figure: it => {
-    v(LEADING * 4, weak: true)
+    v(LEADING * 2)
     it
-    v(LEADING * 4, weak: true)
+    v(LEADING * 2)
   }
 
   show figure.caption: it => {
@@ -340,9 +340,11 @@
 
 // Workaround for https://github.com/typst/typst/issues/3206
 // Must be the last show rule, because we can't recurse into `styled()` elements
-#let _box-math(rest) = {
+#let _box-blocks(rest) = {
   for it in rest.children {
-    if (it.func() == math.equation and it.block) {
+    let is-block-math = it.func() == math.equation and it.block
+    let is-figure = it.func() == figure
+    if (is-block-math or is-figure) {
       // separate the equation from the prior paragraph without breaking the
       // paragraph
       v(LEADING / 4, weak: true)
@@ -377,7 +379,7 @@
 
   show: _style-ref
   // this needs to be the very last show rule
-  show: _box-math
+  show: _box-blocks
 
   body
 }
