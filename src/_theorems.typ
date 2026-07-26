@@ -5,13 +5,23 @@
 
 /// Function that generates theorem environment functions.
 ///
-/// - kind: Name of the kind of environment, e.g. "Theorem".
-/// - fmt: Formatting function for the heading of this theorem.
-/// - body-fmt: Formatting function for the body of this theorem.
-/// - numbered: Whether to number this theorem or not.
-/// - counter-type: Theorems will use this counter. Use the same counter to
+/// - kind (): Name of the kind of environment, e.g. "Theorem".
+/// - fmt (): Formatting function for the heading of this theorem.
+/// - body-fmt (): Formatting function for the body of this theorem.
+/// - counter-type (): Theorems will use this counter. Use the same counter to
 ///   share a counter between environments.
-#let thm-env(kind, fmt: it => smallcaps(strong(it)), body-fmt: emph, numbered: true, counter-type: "thmlike") = {
+/// - numbered (): Whether to number this theorem or not.
+/// - numbering-internal (): Numbering to use in this environment by default.
+///   A set
+/// -> function
+#let thm-env(
+  kind,
+  fmt: it => smallcaps(strong(it)),
+  body-fmt: emph,
+  counter-type: "thmlike",
+  numbered: true,
+  numbering-internal: "(1)",
+) = {
   // the entire theorem needs to be a single box, because `sequence` objects
   // are screwed up. as of typst 0.15.0, using a sequence instead of a box
   // will result in a 'label does not exist in document' error when
@@ -85,6 +95,9 @@
           // heading, and thm content on the same line
           thm-heading-content + h(0.35em, weak: true)
         }
+
+        set enum(numbering: numbering-internal)
+
         thm-heading + body-fmt-internal(_box-blocks(body))
       },
     )
