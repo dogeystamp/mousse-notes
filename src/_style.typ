@@ -63,6 +63,16 @@
   set enum(indent: INDENT, numbering: "1.")
   set list(indent: INDENT)
 
+  // make non-tight spacing work (since SPACING == LEADING)
+  let non-tight-style = it => {
+    set par(spacing: LEADING * 2)
+    v(LEADING * 2, weak: true)
+    it
+    v(LEADING * 2, weak: true)
+  }
+  show enum.where(tight: false): non-tight-style
+  show list.where(tight: false): non-tight-style
+
   let f(it) = {
     set block(breakable: true)
     v(weak: true, LEADING)

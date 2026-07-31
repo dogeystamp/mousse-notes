@@ -6,10 +6,10 @@
 /// Horizontal size of indentations.
 #let INDENT = 1.4em
 
-/// Spacing between paragraphs
-#let SPACING = 0.5em + 1pt
 /// Spacing within paragraphs
 #let LEADING = 0.5em + 1pt
+/// Spacing between paragraphs
+#let SPACING = LEADING
 
 #let FONTS = (
   body: "New Computer Modern",
