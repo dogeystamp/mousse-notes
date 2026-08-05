@@ -3,7 +3,7 @@
 #import "_constants.typ": *
 
 /// Math element style
-#let style-math(it) = {
+#let style-math(body) = {
   show math.equation: it => {
     set text(font: FONTS.at("math"))
     it
@@ -45,11 +45,11 @@
     }
   }
 
-  it
+  body
 }
 
 /// Paragraph & body text style
-#let style-body(it) = {
+#let style-body(body) = {
   set text(font: FONTS.at("body"))
   set par(
     first-line-indent: (amount: INDENT, all: false),
@@ -84,11 +84,11 @@
   show enum: f
   show terms: f
 
-  it
+  body
 }
 
 /// Code block / raw text style
-#let style-code(it) = {
+#let style-code(body) = {
   show raw: set block(
     fill: rgb("#f7f7f7"),
     inset: (left: 1em, top: 1em, bottom: 1em),
@@ -97,11 +97,11 @@
     width: 100%,
   )
   show raw.where(block: true): set text(size: 0.8em)
-  it
+  body
 }
 
 /// Section heading style
-#let style-heading(it) = {
+#let style-heading(body) = {
   // Generic section header function
   let heading-func = (body-fmt: emph, use-line: false, it) => {
     set text(weight: "regular")
@@ -182,10 +182,10 @@
   }
   set heading(numbering: "1.1.1a")
 
-  it
+  body
 }
 
-#let style-link(it) = {
+#let style-link(body) = {
   show link: it => {
     if type(it.dest) != str {
       // local link
@@ -203,7 +203,7 @@
     }
   }
 
-  it
+  body
 }
 
 #let _footer = context {
@@ -279,7 +279,7 @@
 }
 
 /// Figures style
-#let style-figures(it) = {
+#let style-figures(body) = {
   show figure: it => {
     v(LEADING * 2)
     it
@@ -310,7 +310,7 @@
     it
   }
 
-  it
+  body
 }
 
 /// Handle references to theorem environments.
@@ -327,7 +327,7 @@
 /// - Whenever a `ref()` occurs, and its target contains the special metadata
 ///   tag, intercept the reference, and make it point to the `figure()` instead
 ///   of the `#theorem[]` sequence.
-#let _style-ref = it => {
+#let _style-ref(body) = {
   show ref: it => context {
     let target = it.element
     if (
@@ -345,7 +345,7 @@
     }
   }
 
-  it
+  body
 }
 
 // Workaround for https://github.com/typst/typst/issues/3206
