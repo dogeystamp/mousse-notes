@@ -1,39 +1,62 @@
+#let _fit(min: 2em, max: 4em, max-ratio: 100%, body) = layout(size => {
+  let fits(it) = {
+    let measured-size = measure(width: size.width, it)
+    measured-size.height < size.height and measured-size.width < size.width * max-ratio
+  }
+  let measured-size = measure(width: size.width, body)
+
+  let size = max
+  let INCREMENT = 0.1em
+
+  while not fits({
+    set text(size: size)
+    body
+  }) {
+    if size - INCREMENT < min {
+      break
+    }
+    size -= INCREMENT
+  }
+
+  {
+    set text(size: size)
+    body
+  }
+})
+
 /// Title page of the document.
 ///
 /// The subtitle options are descriptions under the title on the front page.
-/// The epigraph is intended to be a `#quote` element to decorate the page.
 #let title-page(
   subtitle: none,
   subsubtitle: none,
-  footer: none,
+  subsubsubtitle: none,
   epigraph: none,
 ) = {
-  place(horizon + center, dy: -15%, {
-    set par(spacing: 1em, leading: 0.25em, justify: false)
+  set par(first-line-indent: 0em, hanging-indent: 0em)
 
-    align(center, line(length: 90%))
-    v(5%, weak: true)
-    upper(context { text(size: 5em, hyphenate: false, document.title) })
-    v(5%, weak: true)
-    if subtitle != none {
-      text(size: 2.5em, upper(subtitle))
-    }
-    v(5%, weak: true)
-    align(center, line(length: 90%))
-    v(5%, weak: true)
+  v(5%)
 
-    set par(spacing: 1em, leading: 0.75em, justify: false)
-    upper(text(size: 1.75em, subsubtitle))
-  })
+  set par(spacing: 1em, leading: 0.25em, justify: false)
+  _fit(upper(context document.title))
+  if subtitle != none {
+    text(size: 2em, upper(subtitle))
+  }
+  v(2em, weak: true)
+  line(length: 90%)
+  set par(leading: 0.5em)
+  v(2em, weak: true)
+  text(size: 1.5em, upper(subsubtitle))
+  v(0.5em)
 
-  place(bottom + center, {
-    {
-      set text(size: 1.25em)
-      upper(footer)
-    }
-    v(4em, weak: true)
+  {
+    set text(size: 1em)
+    upper(subsubsubtitle)
+  }
+
+  align(bottom, {
     context for author in document.author {
-      align(bottom + center, smallcaps(text(size: 1.75em, author)))
+      upper(author)
     }
   })
 
