@@ -1,7 +1,7 @@
 /// Theorem environments
 
 #import "_constants.typ": LEADING
-#import "_style.typ": _box-blocks
+#import "_style.typ": box-blocks
 
 /// Function that generates theorem environment functions.
 ///
@@ -98,7 +98,7 @@
 
         set enum(numbering: numbering-internal)
 
-        thm-heading + body-fmt-internal(_box-blocks(body))
+        thm-heading + body-fmt-internal(box-blocks(body))
       },
     )
 

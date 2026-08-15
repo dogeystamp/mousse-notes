@@ -350,7 +350,10 @@
 
 // Workaround for https://github.com/typst/typst/issues/3206
 // Must be the last show rule, because we can't recurse into `styled()` elements
-#let _box-blocks(rest) = {
+#let box-blocks(rest) = {
+  if not rest.has("children") {
+    return rest
+  }
   for it in rest.children {
     let is-block-math = it.func() == math.equation and it.block
     let is-figure = it.func() == figure
@@ -389,7 +392,7 @@
 
   show: _style-ref
   // this needs to be the very last show rule
-  show: _box-blocks
+  show: box-blocks
 
   body
 }
