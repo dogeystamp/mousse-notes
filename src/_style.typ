@@ -74,6 +74,11 @@
   show list.where(tight: false): non-tight-style
 
   let f(it) = {
+    // no nested indents
+    set terms(indent: 0em)
+    set enum(indent: 0em)
+    set list(indent: 0em)
+
     set block(breakable: true)
     v(weak: true, LEADING)
     it
