@@ -26,12 +26,16 @@
 
 /// Title page of the document.
 ///
-/// The subtitle options are descriptions under the title on the front page.
+/// Title is read directly from the `document.title` metadata.
+///
+/// - subtitle (content): Description immediately besides the title
+/// - primary (content): Content below the title
+/// - secondary (content): Content below the primary description
+/// -> content
 #let title-page(
   subtitle: none,
-  subsubtitle: none,
-  subsubsubtitle: none,
-  epigraph: none,
+  primary: none,
+  secondary: none,
 ) = {
   set par(first-line-indent: 0em, hanging-indent: 0em)
 
@@ -46,12 +50,12 @@
   line(length: 90%)
   set par(leading: 0.5em)
   v(2em, weak: true)
-  text(size: 1.5em, upper(subsubtitle))
+  text(size: 1.5em, upper(primary))
   v(0.5em)
 
   {
     set text(size: 1em)
-    upper(subsubsubtitle)
+    upper(secondary)
   }
 
   align(bottom, {
