@@ -114,9 +114,11 @@
     block(
       sticky: true,
       {
-        emph(text(size: 0.8em, counter(heading).display()))
-        "."
-        h(0.5em)
+        if it.numbering != none and it.outlined {
+          emph(text(size: 0.8em, counter(heading).display(it.numbering)))
+          "."
+          h(0.5em)
+        }
         body-fmt(it.body)
         if use-line {
           show: box.with(width: 1fr)
@@ -150,7 +152,9 @@
         + if it.outlined {
           emph[
             #v(0.9em, weak: true)
-            #h(0.125em)#smallcaps[Chapter] #counter(heading).display()
+            #if it.numbering != none and it.outlined [
+              #h(0.125em)#smallcaps[Chapter] #counter(heading).display(it.numbering)
+            ]
           ]
         },
     )
@@ -233,11 +237,12 @@
     return
   }
 
-  let chapter-right-after = query(selector(heading.where(level: 1)).after(here())).at(0, default: none)
   let sec-right-after = query(selector(heading.where(level: 2)).after(here())).at(0, default: none)
   let sec-right-before = query(selector(heading.where(level: 2)).before(here())).at(-1, default: none)
 
   let current-chapter = query(selector(heading.where(level: 1)).before(here())).at(-1, default: none)
+  let chapter-right-after = query(selector(heading.where(level: 1)).after(here())).at(0, default: none)
+
   let current-sec = if sec-right-after != none and sec-right-after.location().page() == here().page() {
     sec-right-after
   } else {
@@ -258,7 +263,7 @@
     chap. #numbering(current-chapter.numbering, ..counter(heading).at(current-chapter.location()))
   ]
 
-  let sec_num = if current-sec != none [
+  let sec_num = if current-sec != none and current-sec.numbering != none [
     sec. #numbering(current-sec.numbering, ..counter(heading).at(current-sec.location()))
   ]
 
