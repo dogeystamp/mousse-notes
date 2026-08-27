@@ -3,7 +3,7 @@
 #import "_constants.typ": *
 
 /// Math element style
-#let style-math(body) = {
+#let _style-math(body) = {
   show math.equation: it => {
     set text(font: FONTS.at("math"))
     it
@@ -49,7 +49,7 @@
 }
 
 /// Paragraph & body text style
-#let style-body(body) = {
+#let _style-body(body) = {
   set text(font: FONTS.at("body"))
   set par(
     first-line-indent: (amount: INDENT, all: false),
@@ -93,7 +93,7 @@
 }
 
 /// Code block / raw text style
-#let style-code(body) = {
+#let _style-code(body) = {
   show raw: set block(
     fill: rgb("#f7f7f7"),
     inset: (left: 1em, top: 1em, bottom: 1em),
@@ -107,7 +107,7 @@
 }
 
 /// Section heading style
-#let style-heading(body) = {
+#let _style-heading(body) = {
   // Generic section header function
   let heading-func = (body-fmt: emph, use-line: false, it) => {
     set text(weight: "regular")
@@ -191,7 +191,8 @@
   body
 }
 
-#let style-link(body) = {
+/// Hyperlink and internal reference style
+#let _style-link(body) = {
   show link: it => {
     if type(it.dest) != str {
       // local link
@@ -279,13 +280,13 @@
 }
 
 /// Page header and footer style
-#let style-header-footer(it) = {
+#let _style-header-footer(it) = {
   set page(footer: _footer, header: _header)
   it
 }
 
 /// Figures style
-#let style-figures(body) = {
+#let _style-figures(body) = {
   show figure: it => {
     v(LEADING * 2)
     it
@@ -356,7 +357,7 @@
 
 // Workaround for https://github.com/typst/typst/issues/3206
 // Must be the last show rule, because we can't recurse into `styled()` elements
-#let box-blocks(rest) = {
+#let _box-blocks(rest) = {
   if not rest.has("children") {
     return rest
   }
@@ -378,13 +379,13 @@
 
 /// Main style entry point
 #let style(body) = {
-  show: style-body
-  show: style-heading
-  show: style-code
-  show: style-figures
-  show: style-header-footer
-  show: style-link
-  show: style-math
+  show: _style-body
+  show: _style-heading
+  show: _style-code
+  show: _style-figures
+  show: _style-header-footer
+  show: _style-link
+  show: _style-math
 
   // Update counters on new chapter
   show heading.where(level: 1): it => {
@@ -398,7 +399,7 @@
 
   show: _style-ref
   // this needs to be the very last show rule
-  show: box-blocks
+  show: _box-blocks
 
   body
 }
