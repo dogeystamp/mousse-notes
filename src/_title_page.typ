@@ -1,3 +1,5 @@
+#import "_constants.typ": FONTS
+
 #let _fit(min: 2em, max: 4em, max-ratio: 100%, body) = layout(size => {
   let fits(it) = {
     let measured-size = measure(width: size.width, it)
@@ -37,6 +39,7 @@
   primary: none,
   secondary: none,
 ) = {
+  set text(font: FONTS.heading)
   set par(first-line-indent: 0em, hanging-indent: 0em)
 
   v(5%)

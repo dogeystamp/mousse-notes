@@ -16,4 +16,3 @@
   heading: "New Computer Modern",
   math: "New Computer Modern Math",
 )
-

@@ -5,7 +5,7 @@
 /// Math element style
 #let _style-math(body) = {
   show math.equation: it => {
-    set text(font: FONTS.at("math"))
+    set text(font: FONTS.math)
     it
   }
 
@@ -50,7 +50,7 @@
 
 /// Paragraph & body text style
 #let _style-body(body) = {
-  set text(font: FONTS.at("body"))
+  set text(font: FONTS.body)
   set par(
     first-line-indent: (amount: INDENT, all: false),
     justify: true,
