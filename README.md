@@ -33,13 +33,3 @@ Alternatively, use `git worktree add` to create a worktree at
 
 Run `just thumbnail` to generate thumbnails for the docs. To make a release, make a
 `v1.x.x` version tag and push it to GitHub.
-
-Versioning does not adhere to SemVer, and instead uses [Pride Versioning](https://pridever.org/).
-
-### Changelog
-
-- v1.1.0
-    - improve line breaks on math and theorem environments
-    - `style` option, and sans-serif style
-    - style code blocks
-    - other miscellaneous style changes
