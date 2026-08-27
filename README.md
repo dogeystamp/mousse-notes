@@ -1,7 +1,7 @@
 **Mousse notes** is a [Typst](https://typst.app) template for taking course notes, inspired by old-ish math books.
 
 <picture>
-  <img src="thumbnail_pages.png" alt="A picture of the first page of a Mousse notes chapter.">
+  <img src="thumbnail_pages.png" alt="A screenshot of the first two pages of a Mousse notes chapter.">
 </picture>
 
 ## Getting Started
@@ -24,9 +24,9 @@ package.
 ### Development
 
 To install this package for development, install Typst,
-[Just](https://github.com/casey/just), and `optipng`. Clone this git
-repository, then use `just install` to install the package to the `@local`
-namespace.
+[Just](https://github.com/casey/just), `optipng`, and ImageMagick.
+Clone this git repository, then use `just install` to install the
+package to the `@local` namespace.
 
 Alternatively, use `git worktree add` to create a worktree at
 `~/.local/share/typst/packages/local/mousse-notes`.

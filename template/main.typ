@@ -1,24 +1,33 @@
-#import "@preview/mousse-notes:1.1.0": *
-#set page(paper: "us-letter")
-#show: book.with(
-  title: [WUNK 101],
+#import "@preview/mousse-notes:2.0.0": *
+
+#set document(title: [WUNK 101], author: "John Student")
+
+// US Letter size folded in half.
+// Readable on screens, and readable as a folded booklet.
+#set page(height: 215.9mm, width: 279.4mm / 2)
+
+// Alternatively, use us-letter.
+// #set page(paper: "us-letter")
+
+#show: style
+
+#title-page(
   subtitle: [Introduction to Wunkematics],
-  subsubtitle: [
-    Lecture notes, Fall 2023
+  primary: [
+    Lectures delivered by \
+    _Jonathan Bingus_ \
   ],
-  subsubsubtitle: [
-    Professor #smallcaps[Jonathan Bingus], University of Ipsum.
-  ],
-  author: "John S. Student",
-  epigraph: quote(
-    attribution: [Jonathan Bingus],
-  )[This is a tremendously inspirational quote that sets the tone of this course; truly, one of the epigraphs of all time.],
-  font-style: "serif",
+  secondary: [University of Ipsum \ Fall 2026],
 )
 
-// This is a demo of how Mousse looks like for taking notes:
+// The first chapter is a demo of how Mousse looks like for taking
+// notes. A manual is available afterwards.
 
 = The Pond
+
+#epigraph(attribution: [Jonathan Bingus])[
+  This is a tremendously inspirational quote that sets the tone of this course; truly, one of the epigraphs of all time.
+]
 
 == Introduction
 
@@ -39,13 +48,12 @@ it comprises a liquid medium, and it may contain objects within the medium.
     i.e. $w overline(w) = M$. (Anti-wunk axiom)
 ]
 
-#indent
 The most commonly used pond
 is $PP_1$, where the medium $M$ is water, and
 the wunks are acidic ($A$) and basic ($B$) fish:
 $
-A = {a_1, a_2, ...}, quad B = {b_1, b_2, ...}, \
-PP_1 = A union B.
+  A = {a_1, a_2, ...}, quad B = {b_1, b_2, ...}, \
+  PP_1 = A union B.
 $
 
 #proposition[The set $PP_1$ is a pond.]
@@ -58,11 +66,23 @@ $
     Therefore, $PP_1$ is a pond. $qed$
 ]
 
-== Wunk Transfer
+== WunkPy
 
-A *pond chain* is an ordered list of $n$ ponds ($n in NN$),
-where consecutive ponds are made to overlap.
-In the overlap between pond $i$ and pond $i + 1$, a dancing fish $f_i$ is placed.
+The WunkPy library provides many convenient utilities
+for working with wunks. See @lst_pond for a usage example.
+
+#figure(
+  ```python
+  from wunkpy import Pond, Wunk
+
+  p = Pond()
+  for w in (Wunk(dancing=True), Wunk(dancing=False)):
+    p.add(w)
+  ```,
+  caption: [Initializing a pond in WunkPy],
+) <lst_pond>
+
+== Examples
 
 #example[
   Suppose we construct a pond chain of length $n in NN$,
@@ -73,13 +93,12 @@ In the overlap between pond $i$ and pond $i + 1$, a dancing fish $f_i$ is placed
 ]
 
 #solution[
-  We examine the cases where $n$ is even, and $n$ is odd. By induction on $n$, we
+  We examine the cases where $n$ is even, and $n$ is odd.
+  Using proof by I said so, the statement holds. $qed$
 ]
 
 
-
-
-= Guide to Mousse Notes <ch_guide>
+= Guide to Mousse <ch_guide>
 
 #let mousse = smallcaps[Mousse]
 
@@ -100,17 +119,17 @@ source code of this document while reading to see how the functions are used.
 
 == Document Structure <sec_struct>
 
-To use #mousse, call the `book()` function. See the start of this document for an
-example. As of now, `book()` is the only format supported; perhaps in the future
-there will be others.
-
-In `book()`, one Typst file represents a book, and first level headings (`=`)
-represent chapters. Second and third level headings (`==`, `===`) are sections
-and subsections. As always, you can reference sections and chapters using
-normal Typst methods: @sec_struct, @ch_guide.
+In #mousse, first level headings (`=`) represent chapters. Second and third
+level headings (`==`, `===`) are sections and subsections. As always, you
+can reference sections and chapters using normal Typst methods:
+@sec_struct, @ch_guide.
 
 === Subsection
 This is what a subsection looks like.
+
+==== Subsubsection
+
+And a subsubsection.
 
 == Math Equations
 
@@ -124,93 +143,79 @@ $
 $ <eq_important>
 You can then reference the equation with the label, e.g. see @eq_important.
 
-Due to limitations with Typst,
-#footnote[See: https://github.com/typst/typst/issues/3206]
-you can not break a paragraph after a math equation. That is, after a math
-equation, there will never be an indent.
-#mousse provides a workaround for this:
-whenever you need an indent, use `#indent`.
-For example:
-$
-  1 + 1 = 2
-$
-#indent This is a new paragraph (visually, at least).
-The indent in front of this paragraph was manually added.
+== Indent control
 
-The other visual workaround function provided by #mousse is `glue()`.
-Sometimes, Typst will put a awkward pagebreak between a paragraph and an equation.
-By wrapping the paragraph with glue, it will stick to the next element.
+Due to limitations with Typst, #footnote[See:
+  https://github.com/typst/typst/issues/3206] you can not break a paragraph after
+a math equation. That is, after a math equation, there will never be an indent.
+#mousse provides a workaround for this which lets you add an indent.
 
-#glue[
-  For instance, this paragraph is glued to this equation:
-]
 $
-  1 + 1 = 2.
+1 + 1 = 2
 $
+
+If you add a newline after an equation, it will give an indent
+to the next paragraph.
+$
+1 + 1 = 2
+$
+If you don't, it will consider the following text to be part of the same
+paragraph, so no indent will be added.
+
+The method used to provide this feature is hacky, and has the notable
+limitation that it can't recurse into containers like `#block`, or even `#set`
+and `#show`. The feature may break in future releases of the Typst compiler, or
+it may no longer be necessary.
 
 == Theorem Environments
 
-Mousse provides the `theorem()`, `proposition()`, `lemma()`, `corollary()`,
+#mousse provides the `theorem()`, `proposition()`, `lemma()`, `corollary()`,
 `definition()`, `example()`, `solution()`, `proof()` and `remark()`
-environments by default. You can also create your own; see the source
-code in `lib.typ` to see how to do that.
+environments by default. You can also create your own; see the source code in
+`src/_theorems.typ` to see how to do that.
 
 You can make unnamed theorems:
+
 #theorem[
   For all $x in RR$, we have something.
 ]
 You can set a name:
+
 #theorem(name: "Pythagorean")[
   Bla bla bla $a^2 + b^2 = c^2$.
 ]
-You can also assign a label to the theorem with the `id:` optional parameter,
-then reference the theorem.
-See @thm_bla.
-#theorem(id: "thm_bla")[For all $x in CC$, we have something.]
+You can reference theorems (see @thm_bla):
 
-#indent If you need to break a paragraph after a theorem,
-you again have to use `#indent`,
-otherwise everything will be in the same paragraph visually.
+#theorem[For all $x in CC$, we have something.] <thm_bla>
 
 For proofs, you must add `$qed$` by yourself. In #mousse, `$qed$` is intended
 to be next the the content, rather than at the end of the line.
 For example:
+
 #proof[
   #lorem(20) $qed$
 ]
 
-== Figures
+Due to implementation details,
+theorem environments can not be broken across different pages.
+Also, you should be careful with newlines around theorems,
+as they affect formatting.
 
-#mousse provides fancy formatted tables with the function `tablef()`,
-which is a thin wrapper over `table()`.
-Use these the same way you'd use Typst's default tables.
+- Always put a newline before a theorem.
 
-#figure(
-  tablef(columns: 2, $A$, table.vline(), $not A$, table.hline(), $T$, $F$, $F$, $T$),
-  caption: [Truth table for negation "not $A$".],
-)
+- Use a newline after a theorem to make following line part of a new paragraph and be indented.
 
-Image figures in #mousse also work.
+- Omit the newline after a theorem to make the following line continue the current paragraph.
 
-== Fonts
+These rules may change with no warning depending on the Typst compiler version.
 
-Use the `style` option in the entry point to select a font style;
-as of now, `"serif"` and `"sans"` are the available options.
-Serif is the default and is better supported.
-To pick which fonts styles map to, set the `fonts` option,
-whose default value is as follows:
-```typst
-  fonts: (
-    serif: (
-      text: "New Computer Modern",
-      math: "New Computer Modern Math",
-    ),
-    sans: (
-      text: "Fira Sans",
-      math: "Fira Math",
-    ),
-  )
-```
+== Further Configuration
 
-New Computer Modern is always available in Typst; the Fira family of fonts
-may have to be installed separately.
+#mousse is an opinionated template, and offers no configuration options. The
+recommended way for you to change the style of the template is to fork the
+repository. (If you make an improvement that can benefit all users of this
+template, please consider making a PR.)
+
+The Typst compiler does not usually have large breaking changes, so you should
+be able to use your fork indefinitely without having to backport changes from
+the upstream #mousse package.

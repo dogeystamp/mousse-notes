@@ -10,11 +10,10 @@ default:
 thumbnail:
   mkdir -p doc
   cat template/main.typ | sed 's/#import "@preview.mousse-notes:.*/#import "\/src\/lib.typ" as mousse-notes: */g' > doc/main.typ
-  typst compile -f png --pages 1 --ppi 250 doc/main.typ thumbnail.png
-  typst compile -f png --pages 2 --ppi 250 doc/main.typ thumbnail_pages.png
-  optipng -o6 thumbnail.png
-  optipng -o6 thumbnail_pages.png
-
+  typst compile -f png --pages 1-3 --ppi 250 doc/main.typ doc/thumbnail{p}.png
+  magick convert +append doc/thumbnail{2,3}.png thumbnail_pages.png
+  cp doc/thumbnail1.png thumbnail.png
+  optipng -o6 thumbnail*.png
 
 # package the library into the specified destination folder
 package target:
