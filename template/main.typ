@@ -12,12 +12,12 @@
 #show: style
 
 #title-page(
-  subtitle: [Introduction to Wunkematics],
-  primary: [
+  subtitle: upper[Introduction to Wunkematics],
+  primary: upper[
     Lectures delivered by \
     _Jonathan Bingus_ \
   ],
-  secondary: [University of Ipsum \ Fall 2026],
+  secondary: upper[University of Ipsum \ Fall 2026],
 )
 
 // The first chapter is a demo of how Mousse looks like for taking

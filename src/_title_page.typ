@@ -44,18 +44,18 @@
   set par(spacing: 1em, leading: 0.25em, justify: false)
   _fit(upper(context document.title))
   if subtitle != none {
-    text(size: 2em, upper(subtitle))
+    text(size: 2em, subtitle)
   }
   v(2em, weak: true)
   line(length: 90%)
   set par(leading: 0.5em)
   v(2em, weak: true)
-  text(size: 1.5em, upper(primary))
+  text(size: 1.5em, primary)
   v(0.5em)
 
   {
     set text(size: 1em)
-    upper(secondary)
+    secondary
   }
 
   align(bottom, {
