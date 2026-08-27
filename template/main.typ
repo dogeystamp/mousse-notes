@@ -9,6 +9,8 @@
 // Alternatively, use us-letter.
 // #set page(paper: "us-letter")
 
+// This must be the last show or set rule
+// (because of the `_box-blocks` rule).
 #show: style
 
 #title-page(
