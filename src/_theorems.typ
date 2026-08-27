@@ -12,7 +12,6 @@
 ///   share a counter between environments.
 /// - numbered (): Whether to number this theorem or not.
 /// - numbering-internal (): Numbering to use in this environment by default.
-///   A set
 /// -> function
 #let thm-env(
   kind,
@@ -25,7 +24,7 @@
   // the entire theorem needs to be a single box, because `sequence` objects
   // are screwed up. as of typst 0.15.0, using a sequence instead of a box
   // will result in a 'label does not exist in document' error when
-  // `_box-math` is also being used.
+  // `_box-blocks` is also being used.
   return (body, name: none, breakable: true) => box({
     metadata("__mousse_thmenv")
     let theorem-counter = counter("__moussethm-" + counter-type)
