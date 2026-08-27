@@ -102,6 +102,7 @@
     width: 100%,
   )
   show raw.where(block: true): set text(size: 0.8em)
+  set raw(theme: "_grayscale.tmTheme")
   body
 }
 
