@@ -135,9 +135,9 @@
     )
   }
 
+  show heading.where(level: 1): set heading(supplement: "Chapter")
   // Chapter
   show heading.where(level: 1): it => {
-    set heading(supplement: [Chapter])
     pagebreak(weak: true)
     set par(first-line-indent: 0.0em)
     block(
