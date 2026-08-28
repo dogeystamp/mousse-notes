@@ -31,5 +31,6 @@ package to the `@local` namespace.
 Alternatively, use `git worktree add` to create a worktree at
 `~/.local/share/typst/packages/local/mousse-notes`.
 
-Run `just thumbnail` to generate thumbnails for the docs. To make a release, make a
-`vx.x.x` version tag and push it to GitHub.
+Run `just thumbnail` to generate thumbnails for the docs. To make a
+release, make a `vx.x.x` version tag and push it to GitHub. Regenerate
+the fine-grained personal access token (under Credentials on GitHub)
