@@ -32,4 +32,4 @@ Alternatively, use `git worktree add` to create a worktree at
 `~/.local/share/typst/packages/local/mousse-notes`.
 
 Run `just thumbnail` to generate thumbnails for the docs. To make a release, make a
-`v1.x.x` version tag and push it to GitHub.
+`vx.x.x` version tag and push it to GitHub.
