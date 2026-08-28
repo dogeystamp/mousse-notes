@@ -114,11 +114,11 @@
     block(
       sticky: true,
       {
-        if it.numbering != none and it.outlined {
+        if it.numbering != none and it.outlined {context {
           emph(text(size: 0.8em, counter(heading).display(it.numbering)))
           "."
           h(0.5em)
-        }
+        }}
         body-fmt(it.body)
         if use-line {
           show: box.with(width: 1fr)
@@ -152,9 +152,9 @@
         + if it.outlined {
           emph[
             #v(0.9em, weak: true)
-            #if it.numbering != none and it.outlined [
+            #if it.numbering != none and it.outlined {context [
               #h(0.125em)#smallcaps[Chapter] #counter(heading).display(it.numbering)
-            ]
+            ]}
           ]
         },
     )
@@ -298,7 +298,7 @@
     v(LEADING * 2)
   }
 
-  show figure.caption: it => {
+  show figure.caption: it => context {
     set text(size: 0.9em)
     smallcaps[#it.supplement #it.counter.display()#it.separator]
     it.body
