@@ -141,12 +141,13 @@
   // Chapter
   show heading.where(level: 1): it => {
     pagebreak(weak: true)
-    set par(first-line-indent: 0.0em)
+    set par(first-line-indent: 0.0em, justify: false)
+    set text(hyphenate: false)
     block(
       inset: (left: -0.2em),
-      height: 15% - 1em,
+      height: auto,
       {
-        set text(size: 2em)
+        set text(size: 1.75em)
         (emph(it.body))
       }
         + if it.outlined {
@@ -158,6 +159,7 @@
           ]
         },
     )
+    v(LEADING * 4, weak: true)
   }
 
   // Section
