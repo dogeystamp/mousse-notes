@@ -167,7 +167,12 @@
 /// - body (content): Contents of the proof.
 /// - name (content): Name of the proof.
 /// -> content
-#let proof(body, name: none) = thm-env("Proof", fmt: emph, body-fmt: it => it, numbered: false)(
+#let proof(body, name: none) = thm-env(
+  "Proof",
+  fmt: emph,
+  body-fmt: it => it,
+  numbered: false,
+)(
   body,
   name: name,
 )
@@ -176,7 +181,12 @@
 /// - body (content): Contents of the example.
 /// - name (content): Name of the example.
 /// -> content
-#let example(body, name: none) = thm-env("Example", fmt: strong, body-fmt: emph, counter-type: "example")(
+#let example(body, name: none) = thm-env(
+  "Example",
+  fmt: strong,
+  body-fmt: emph,
+  counter-type: "example",
+)(
   body,
   name: name,
 )
@@ -199,7 +209,13 @@
 /// - body (content): Contents of the remark.
 /// - name (content): Name of the remark.
 /// -> content
-#let remark(body, name: none) = thm-env("Remark", fmt: it => it, numbered: false, counter-type: "remark")(
+#let remark(body, name: none) = thm-env(
+  "Remark",
+  fmt: emph,
+  body-fmt: it => it,
+  numbered: false,
+  counter-type: "remark",
+)(
   body,
   name: name,
 )
