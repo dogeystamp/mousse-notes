@@ -70,8 +70,10 @@
     it
     v(LEADING * 2, weak: true)
   }
+
   show enum.where(tight: false): non-tight-style
   show list.where(tight: false): non-tight-style
+  show terms.where(tight: false): non-tight-style
 
   let f(it) = {
     // no nested indents
