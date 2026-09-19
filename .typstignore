@@ -8,6 +8,7 @@
 # .git and .typstignore are excluded automatically
 
 .github
+.jj
 doc
 scripts
 Justfile
