@@ -40,7 +40,7 @@ Intuitively, a pond can be compared to a body of water (as in the usual sense of
 it comprises a liquid medium, and it may contain objects within the medium.
 
 #definition[
-  A *pond* is a set of wunks $P$ along with a *medium element* $M$ that satisfies the following properties (pond axioms):
+  A _pond_ is a set of wunks $P$ along with a _medium element_ $M$ that satisfies the following properties (pond axioms):
   + For all distinct wunks $w_1, w_2 in P$ such that both $w_1$ and $w_2$ are fish,
     if $w_1$ is dancing, then $w_2$ is not dancing.#footnote[
       Informally, this axiom is often stated as "two fish may not dance in the same pond."

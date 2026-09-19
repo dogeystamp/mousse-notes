@@ -3,6 +3,19 @@
 This changelog is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 Mousse uses [Pride Versioning](https://pridever.org/).
 
+## Unreleased
+
+In summary:
+- Reduce the amount of bold used to reduce visual noise.
+
+### Changed
+
+- Theorems use just smallcaps instead of smallcaps + bold
+- Examples are smallcaps + bold instead of just bold for consistency
+- Definitions no longer put the body in italics (following [this Stack Exchange answer][definition-italics])
+
+[definition-italics]: https://tex.stackexchange.com/questions/38260/non-italic-text-in-theorems-definitions-examples#:~:text=is%20recommended%20for-,definitions,-%2C%20conditions%2C%20problems%2C%20and
+
 ## [v2.0.0] - 2026-08-27
 
 This update is a general overhaul of Mousse.

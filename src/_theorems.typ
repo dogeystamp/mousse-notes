@@ -15,7 +15,7 @@
 /// -> function
 #let thm-env(
   kind,
-  fmt: it => smallcaps(strong(it)),
+  fmt: it => smallcaps(it),
   body-fmt: emph,
   counter-type: "thmlike",
   numbered: true,
@@ -77,7 +77,7 @@
       numbering: (..levels) => [#counter(heading).get().at(0).#theorem-counter.display()],
       {
         let number = context [ #counter(heading).get().at(0).#theorem-counter.display()]
-        let thm-heading-content = fmt[#kind#if numbered { number }] + if name != none [ *(#name)*] + fmt[.]
+        let thm-heading-content = fmt[#kind#if numbered { number }] + if name != none [ (#name)] + fmt[.]
 
         let first-elem = body-elems.at(0, default: none)
 
@@ -158,7 +158,10 @@
 /// - body (content): Contents of the definition.
 /// - name (content): Name of the definition.
 /// -> content
-#let definition(body, name: none) = thm-env("Definition")(
+#let definition(body, name: none) = thm-env(
+  "Definition",
+  body-fmt: it => it,
+)(
   body,
   name: name,
 )
@@ -183,8 +186,6 @@
 /// -> content
 #let example(body, name: none) = thm-env(
   "Example",
-  fmt: strong,
-  body-fmt: emph,
   counter-type: "example",
 )(
   body,
