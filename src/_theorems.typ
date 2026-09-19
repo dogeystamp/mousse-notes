@@ -186,6 +186,7 @@
 /// -> content
 #let example(body, name: none) = thm-env(
   "Example",
+  body-fmt: it => it,
   counter-type: "example",
 )(
   body,
