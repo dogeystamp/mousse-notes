@@ -60,7 +60,7 @@
 
   // Lists
   set terms(hanging-indent: INDENT)
-  set enum(indent: INDENT, numbering: "1.")
+  set enum(indent: INDENT / 2, numbering: "1.")
   set list(indent: INDENT)
 
   // make non-tight spacing work (since SPACING == LEADING)
