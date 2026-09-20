@@ -294,6 +294,18 @@
   it
 }
 
+/// Check if an element is a theorem environment.
+#let _is-thm-block(it) = {
+  return (
+    it != none
+      and it.has("body")
+      and it.body.has("children")
+      and it.body.children.len() > 0
+      and it.body.children.first().func() == metadata
+      and it.body.children.first().value == "__mousse_thmenv"
+  )
+}
+
 /// Figures style
 #let _style-figures(body) = {
   show figure: it => {
@@ -346,14 +358,7 @@
 #let _style-ref(body) = {
   show ref: it => context {
     let target = it.element
-    if (
-      target != none
-        and target.has("body")
-        and target.body.has("children")
-        and target.body.children.len() > 0
-        and target.body.children.first().func() == metadata
-        and target.body.children.first().value == "__mousse_thmenv"
-    ) {
+    if (_is-thm-block(target)) {
       let dest-meta = query(selector(<__mousse_thm_figure_meta>).after(target.location())).at(0)
       ref(dest-meta.value.label)
     } else {
@@ -364,15 +369,44 @@
   body
 }
 
-// Workaround for https://github.com/typst/typst/issues/3206
+// Handle spacing between blocks.
+//
+// Works around https://github.com/typst/typst/issues/3206.
+// Also sets spacing around theorem environments.
+//
 // Must be the last show rule, because we can't recurse into `styled()` elements
-#let _box-blocks(rest) = {
+#let _block-spacing(rest) = {
   if not rest.has("children") {
     return rest
   }
-  for it in rest.children {
+
+  for (idx, it) in rest.children.enumerate() {
     let is-block-math = it.func() == math.equation and it.block
     let is-figure = it.func() == figure
+    let is-space = it.func() == space
+    let is-thm-environment = _is-thm-block(it)
+
+    // scan the next elements
+    let next-element = none
+    let before-parbreak = false
+    for i in (1, 2, 3) {
+      let next = rest.children.at(idx + i, default: none)
+      if next == none {
+        break
+      }
+      if next.func() == parbreak {
+        before-parbreak = true
+      }
+      if (
+        (next != none) and not (next.func() == space) and not (next.func() == parbreak)
+      ) {
+        next-element = next
+        break
+      }
+    }
+
+    let zero-width-space = "​"
+
     if (is-block-math or is-figure) {
       // separate the equation from the prior paragraph without breaking the
       // paragraph
@@ -380,6 +414,27 @@
       // prevent math block from breaking the paragraph
       box(width: 100%, it)
       linebreak()
+    } else if is-thm-environment {
+      // theorems can not be boxed because that prevents breaking across pages.
+      // treat them specially here.
+
+      v(SPACING * 2.5, weak: true)
+      it
+      // insert spacing if the next thing isn't another theorem
+      if next-element != none and not _is-thm-block(next-element) {
+        v(SPACING * 2.5, weak: true)
+
+        // indent the next paragraph after a theorem if there is a paragraph break.
+        // (work around typst issue 3206.)
+        if before-parbreak {
+          context {
+            // insert an invisible character
+            zero-width-space
+            // cancel its height and the paragraph spacing height
+            v(-(measure(zero-width-space).height + SPACING))
+          }
+        }
+      }
     } else {
       it
     }
@@ -408,7 +463,7 @@
 
   show: _style-ref
   // this needs to be the very last show rule
-  show: _box-blocks
+  show: _block-spacing
 
   body
 }

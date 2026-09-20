@@ -1,7 +1,7 @@
 /// Theorem environments
 
-#import "_constants.typ": LEADING
-#import "_style.typ": _box-blocks
+#import "_constants.typ": *
+#import "_style.typ": _block-spacing
 
 /// Function that generates theorem environment functions.
 ///
@@ -25,7 +25,7 @@
   // are screwed up. as of typst 0.15.0, using a sequence instead of a box
   // will result in a 'label does not exist in document' error when
   // `_box-blocks` is also being used.
-  return (body, name: none, breakable: true) => box({
+  return (body, name: none, breakable: true) => block({
     metadata("__mousse_thmenv")
     let theorem-counter = counter("__moussethm-" + counter-type)
     if numbered {
@@ -44,14 +44,6 @@
         it
       }
     }
-
-    /// The `space` element type.
-    let space = [
-      a
-    ]
-      .children
-      .at(0)
-      .func()
 
     // filter out spaces from start of body
     let body-elems = if body.has("children") {
@@ -97,7 +89,7 @@
 
         set enum(numbering: numbering-internal)
 
-        thm-heading + body-fmt-internal(_box-blocks(body))
+        thm-heading + body-fmt-internal(_block-spacing(body))
       },
     )
 
@@ -108,8 +100,7 @@
       // smuggle the index out of the context
       [#metadata((label: fig-label))<__mousse_thm_figure_meta>]
 
-      box(width: 100%, [#thm-figure#fig-label])
-      v(LEADING)
+      block(width: 100%, [#thm-figure#fig-label])
     }
   })
 }

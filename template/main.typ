@@ -9,8 +9,8 @@
 // Alternatively, use us-letter.
 // #set page(paper: "us-letter")
 
-// This must be the last show or set rule
-// (because of the `_box-blocks` rule).
+// This must be the last show or set rule.
+// See the definition of the `style` function for more information.
 #show: style
 
 #title-page(
@@ -149,14 +149,16 @@ You can then reference the equation with the label, e.g. see @eq_important.
 
 Due to limitations with Typst, #footnote[See:
   https://github.com/typst/typst/issues/3206] you can not break a paragraph after
-a math equation. That is, after a math equation, there will never be an indent.
+a display math equation or any other block element.
+That is, after a block element, there will never be an indent.
 #mousse provides a workaround for this which lets you add an indent.
+This feature applies to display math, theorem environments, and figures.
 
 $
 1 + 1 = 2
 $
 
-If you add a newline after an equation, it will give an indent
+If you add a blank line after an equation, it will give an indent
 to the next paragraph.
 $
 1 + 1 = 2
@@ -164,10 +166,13 @@ $
 If you don't, it will consider the following text to be part of the same
 paragraph, so no indent will be added.
 
-The method used to provide this feature is hacky, and has the notable
-limitation that it can't recurse into containers like `#block`, or even `#set`
-and `#show`. The feature may break in future releases of the Typst compiler, or
-it may no longer be necessary.
+The method used to provide this feature is hacky,
+and it may break in future releases of the Typst compiler
+or no longer be necessary.
+A notable limitation is that it can't recurse into containers like `#block`, or
+even `#set` and `#show`.
+Because of this, you must keep the `#show: style` rule after
+any other `#set` or `#show` rules, otherwise it will break.
 
 == Theorem Environments
 
@@ -176,40 +181,24 @@ it may no longer be necessary.
 environments by default. You can also create your own; see the source code in
 `src/_theorems.typ` to see how to do that.
 
+Here are some examples of using theorems.
 You can make unnamed theorems:
-
 #theorem[
   For all $x in RR$, we have something.
 ]
 You can set a name:
-
 #theorem(name: "Pythagorean")[
   Bla bla bla $a^2 + b^2 = c^2$.
 ]
 You can reference theorems (see @thm_bla):
-
 #theorem[For all $x in CC$, we have something.] <thm_bla>
 
 For proofs, you must add `$qed$` by yourself. In #mousse, `$qed$` is intended
 to be next the the content, rather than at the end of the line.
 For example:
-
 #proof[
   #lorem(20) $qed$
 ]
-
-Due to implementation details,
-theorem environments can not be broken across different pages.
-Also, you should be careful with newlines around theorems,
-as they affect formatting.
-
-- Always put a newline before a theorem.
-
-- Use a newline after a theorem to make following line part of a new paragraph and be indented.
-
-- Omit the newline after a theorem to make the following line continue the current paragraph.
-
-These rules may change with no warning depending on the Typst compiler version.
 
 == Further Configuration
 

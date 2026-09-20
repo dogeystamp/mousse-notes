@@ -16,3 +16,13 @@
   heading: "New Computer Modern",
   math: "New Computer Modern Math",
 )
+
+/// The `space` element type.
+#let space = {
+  [
+    a
+  ]
+    .children
+    .at(0)
+    .func()
+}
