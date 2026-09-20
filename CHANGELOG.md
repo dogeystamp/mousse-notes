@@ -12,6 +12,7 @@ In summary:
 ### Fixed
 
 - Theorem environments can now break across pages
+- Theorem counters reset across chapters
 
 ### Changed
 - Theorems use just smallcaps instead of smallcaps + bold

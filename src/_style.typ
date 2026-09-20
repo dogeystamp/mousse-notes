@@ -454,8 +454,8 @@
   // Update counters on new chapter
   show heading.where(level: 1): it => {
     counter(footnote).update(0)
-    counter("moussethm-thmlike").update(0)
-    counter("moussethm-example").update(0)
+    counter("__moussethm-thmlike").update(0)
+    counter("__moussethm-example").update(0)
     it
   }
 
