@@ -5,9 +5,7 @@ Mousse uses [Pride Versioning](https://pridever.org/).
 
 ## Unreleased
 
-In summary:
-- Reduce the amount of bold used to reduce visual noise.
-- Other minor style changes.
+In summary, lots of minor style changes and bug fixes.
 
 ### Fixed
 
@@ -15,6 +13,7 @@ In summary:
 - Theorem counters reset across chapters
 
 ### Changed
+
 - Theorems use just smallcaps instead of smallcaps + bold
 - Examples are smallcaps + bold instead of just bold for consistency
 - Definitions and examples no longer set the body in italics (following [this Stack Exchange answer][definition-italics])
