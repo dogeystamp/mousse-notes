@@ -1,4 +1,4 @@
-#import "@preview/mousse-notes:2.0.0": *
+#import "@preview/mousse-notes:2.0.1": *
 
 #set document(title: [WUNK 101], author: "John Student")
 

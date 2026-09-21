@@ -3,7 +3,7 @@
 This changelog is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 Mousse uses [Pride Versioning](https://pridever.org/).
 
-## Unreleased
+## [v2.0.1] - 2026-09-21
 
 In summary, lots of minor style changes and bug fixes.
 
